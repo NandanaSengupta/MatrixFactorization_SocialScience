@@ -1,0 +1,258 @@
+###### 10#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS10.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS10 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS10_fin_copy.RData")
+###### 20#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS20.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS20 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS20_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS30.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS30 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS30_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS40.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS40 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS40_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS50.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am25 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS50 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS50_fin_copy.RData")
+###### 50#
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS50.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS50 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS50_fin_copy.RData")
+###### 60#
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS60.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS60 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS60_fin_copy.RData")
+###### 70#
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS70.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS70 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS70_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS80.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS80 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS80_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA/second batch")#
+#
+load("amelia_GSS90.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_GSS90 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_GSS90_fin_copy.RData")

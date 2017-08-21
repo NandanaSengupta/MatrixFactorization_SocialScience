@@ -1,0 +1,4086 @@
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MultipleImputation")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")
+rm(list = ls())#
+library("mice")#
+#
+df = read.csv("GSS10.csv")[, -1]
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MultipleImputation")
+imp  = mice(df, m = 5, pred = quickpred(df), maxit = 20)#
+#
+W1 = complete(imp, action = 1)#
+#
+W2 = complete(imp, action = 2)#
+#
+W3 = complete(imp, action = 3)#
+#
+W4 = complete(imp, action = 4)#
+#
+W5 = complete(imp, action = 5)#
+#
+save(W1,W2, W3, W4, W5,  file = "MICE_GSS_mi.RData" )
+# Amelia #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+rm(list = ls())#
+library("Amelia")#
+#
+df = read.csv("GSS10.csv")[, -1]#
+#
+noms = read.csv("GSScategoricals.csv")[, -1]#
+ords = read.csv("GSSordinals.csv")[, -1]#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MultipleImputation")#
+#
+a = amelia(df, m = 5, noms = noms, ords = ords) #
+#
+am1 = as.data.frame(a$imputations[1])#
+#
+am2 = as.data.frame(a$imputations[2])#
+#
+am3 = as.data.frame(a$imputations[3])#
+#
+am4 = as.data.frame(a$imputations[4])#
+#
+am5 = as.data.frame(a$imputations[5])#
+#
+save(am1, am2, am3, am4, am5, file = "amelia_GSS_mi.RData" )
+# Amelia #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+rm(list = ls())#
+library("Amelia")#
+#
+df = read.csv("GSS10.csv")[, -1]#
+#
+noms = read.csv("GSScategoricals.csv")[, -1]#
+ords = read.csv("GSSordinals.csv")[, -1]#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MultipleImputation")#
+#
+a = amelia(df, m = 4, noms = noms, ords = ords) #
+#
+am1 = as.data.frame(a$imputations[1])#
+#
+am2 = as.data.frame(a$imputations[2])#
+#
+am3 = as.data.frame(a$imputations[3])#
+#
+am4 = as.data.frame(a$imputations[4])#
+save(am1, am2, am3, am4, file = "amelia_GSS_mi.RData" )
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} #
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ) {l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}#
+		#print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l, lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS20.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS20.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS20.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS20_MI.csv")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+#AML6= factorLevels(am6, df.base, cat1)#
+#AML7= factorLevels(am7, df.base, cat1)#
+#AML8= factorLevels(am8, df.base, cat1)#
+#AML9= factorLevels(am9, df.base, cat1)#
+#AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+#MICE6 = factorLevels(W6, df.base, cat1)#
+#MICE7 = factorLevels(W7, df.base, cat1)#
+#MICE8 = factorLevels(W8, df.base, cat1)#
+#MICE9 = factorLevels(W9, df.base, cat1)#
+#MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+#glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+#glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+#glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+#glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+#glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+#GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+#GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+#GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+#GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+#GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 5)#
+l.aml = rep(NA, 5)#
+l.mice = rep(NA, 5)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)
+am5
+l.aml
+l.mice
+l.tr
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} #
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ) {l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}#
+		#print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l, lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS10.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)
+rm(list = ls())
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")
+head(trace)
+dim(trace)
+trace[,1]
+dim(am1)
+am1
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')
+dim(am1)
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} #
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ) {l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}#
+		#print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l, lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS10.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)
+l.tr
+l.mice
+l.aml
+l.tr10 = l.tr#
+l.aml10 = l.aml#
+l.mice10 = l.mice
+l.aml10
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 20 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS20.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS20_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS20.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS20fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr20 = l.tr#
+l.aml20 = l.aml#
+l.mice20 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 30 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS30.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS30_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS30.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS30fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr30 = l.tr#
+l.aml30 = l.aml#
+l.mice30 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 40 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS40.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS40_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS40.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS40fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr40 = l.tr#
+l.aml40 = l.aml#
+l.mice40 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 50 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS50.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS50_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS50.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS50fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr50 = l.tr#
+l.aml50 = l.aml#
+l.mice50 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 60 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS60.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS60_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS60.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS60fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr60 = l.tr#
+l.aml60 = l.aml#
+l.mice60 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 70 #
+###################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS70.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS70_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS70.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS70fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr70 = l.tr#
+l.aml70 = l.aml#
+l.mice70 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 80 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS80.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS80_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS80.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS80fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr80 = l.tr#
+l.aml80 = l.aml#
+l.mice80 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### 90 #
+####################################################################################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS90.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS90_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS90.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS90fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1] = sum(LOSS.MICE1$lcol)#
+#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr90 = l.tr#
+l.aml90 = l.aml#
+l.mice90 = l.mice#
+#
+rm(l.tr, l.aml, l.mice)#
+rm(LOSS.MICE1, LOSS.MICE2, LOSS.MICE3, LOSS.MICE4, LOSS.MICE5, LOSS.MICE6, LOSS.MICE7,  LOSS.MICE8, LOSS.MICE9, LOSS.MICE10 )#
+rm(LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7,  LOSS.AML8, LOSS.AML9, LOSS.AML10)#
+rm(LOSS.GLRM_TR1, LOSS.GLRM_TR2, LOSS.GLRM_TR3, LOSS.GLRM_TR4, LOSS.GLRM_TR5, LOSS.GLRM_TR6, LOSS.GLRM_TR7,  LOSS.GLRM_TR8, LOSS.GLRM_TR9, LOSS.GLRM_TR10)#
+rm(MICE1, MICE2, MICE3, MICE4, MICE5, MICE6, MICE7,  MICE8, MICE9, MICE10)#
+rm(AML1, AML2, AML3, AML4, AML5, AML6, AML7,  AML8, AML9, AML10)#
+rm(GLRM_TR1, GLRM_TR2, GLRM_TR3, GLRM_TR4, GLRM_TR5, GLRM_TR6, GLRM_TR7,  GLRM_TR8, GLRM_TR9, GLRM_TR10)#
+rm(W1, W2, W3, W4, W5, W6, W7,  W8, W9, W10)#
+rm(am1, am2, am3, am4, am5, am6, am7,  am8, am9, am10)#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5, glrm6, glrm7,  glrm8, glrm9, glrm10)#
+rm(trace, df.base, s, df.cv, a, b)#
+#
+###################################################################################
+####### DONE
+rbind(l.tr1, l.tr2, l.tr3, l.tr4, l.tr5)
+rbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50)
+TR = rbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, l.tr90)#
+MC = rbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = rbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90)#
+#
+cbind(TR, MC, AM)
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, l.tr90)#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90)#
+#
+rbind(TR, MC, AM)
+rep("trace", 3)
+c(rep("trace", 3), rep("mice, 2"))
+c(rep("trace", 3), rep("mice", 2))
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 10), rep("mice", 10), rep("amelia", 10))#
+colnames(mat) = c("imp1", "imp2","imp3","imp4","imp5","imp6","imp7","imp8","imp9","imp10")
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+mat
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparison")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")
+write.csv(mat, "GSSsparsitycomp.csv")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")
+cat1 = read.csv("GSScategoricals.csv")[, -1]
+ord1 = read.csv("GSSordinals.csv")[, -1]
+ord1
+rm(list = ls())#
+#
+library("xtable")#
+#
+tests = FALSE#
+# function to combine imputation results#
+#
+MI_est = function(imp1, imp2, imp3, imp4, imp5, imp6, imp7, imp8, imp9, base){#
+# columns with some NA values#
+nacheck = numeric()#
+for ( i in 1: dim(base)[2]){#
+nacheck = c(nacheck, sum(1*is.na(base[,i])))#
+}#
+#
+cols = which(nacheck >0)#
+# quantity of interest : means of all columns with some NA values#
+mu = matrix(NaN, length(cols), 9)#
+# within imputation variance#
+varwt = matrix(NaN, length(cols), 9)#
+varwtfin = rep(NaN, length(cols))#
+# between imputation variance#
+varbw = rep(NaN, length(cols))#
+# final estimate#
+mufin = rep(NaN, length(cols))#
+# final variance #
+varfin = rep(NaN, length(cols))#
+means = numeric()#
+vars = numeric()#
+for (j in 1: length(cols)){#
+	c = cols[j]#
+	mu[j, ] = c(mean(imp1[,c]), mean(imp2[,c]), mean(imp3[,c]), mean(imp4[,c]),mean(imp5[,c]), mean(imp6[,c]), mean(imp7[,c]), mean(imp8[,c]), mean(imp9[,c]))#
+	varwt[j, ] = c(var(imp1[,c]), var(imp2[,c]), var(imp3[,c]), var(imp4[,c]), var(imp5[,c]), var(imp6[,c]), var(imp7[,c]), var(imp8[,c]), var(imp9[,c]))#
+	mufin[j] = mean(mu[j,])#
+	varwtfin[j] = mean(varwt[j,])#
+	varbw[j] = sum((mu[j,] - mufin[j])^2)/9	#
+	varfin[j] = varwtfin[j] + varbw[j]/10 #
+	means = c(means, round(mufin[j],2))#
+	vars = c(vars, paste0( "(", round(sqrt(varfin[j]),2), ")"))#
+	}#
+#
+return(list(nacheck = nacheck, means = means, varfin = sqrt(varfin), vars = vars))#
+#
+}#
+#################### GSS ############################
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+##### BASE DATA#
+#
+base  = read.csv("GSS10.csv")#
+base = base[,-1]#
+#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+#
+base_m = numeric()#
+var_m = numeric()#
+#
+for (i in 1: (cat1[1]-1)){#
+	base_m = c(base_m, mean(base[,i], na.rm = TRUE))#
+	var_m = c(var_m, var(base[,i], na.rm = TRUE))}#
+##### AMELIA#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')#
+#
+check1 = MI_est(am1[,1:(cat1[1]-1)], am2[,1:(cat1[1]-1)], am3[,1:(cat1[1]-1)], am4[,1:(cat1[1]-1)], am5[,1:(cat1[1]-1)], am6[,1:(cat1[1]-1)], am10[,1:(cat1[1]-1)], am8[,1:(cat1[1]-1)], am9[,1:(cat1[1]-1)],  base[,1:(cat1[1]-1)])#
+#
+######  MICE#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS10.RData')#
+#
+check2 = MI_est(W1[,1:(cat1[1]-1)], W2[,1:(cat1[1]-1)], W3[,1:(cat1[1]-1)], W4[,1:(cat1[1]-1)], W5[,1:(cat1[1]-1)], W6[,1:(cat1[1]-1)], W7[,1:(cat1[1]-1)], W8[,1:(cat1[1]-1)], W9[,1:(cat1[1]-1)], base[,1:(cat1[1]-1)])#
+#
+######  TRACE#
+#
+#glrm = read.csv("GSS_MI_glrm.csv")#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")#
+trace = trace[,-1]#
+#
+glrm1 = trace[, (0*dim(base)[2]+1):(1*dim(base)[2])]#
+glrm2 = trace[, (1*dim(base)[2]+1):(2*dim(base)[2])]#
+glrm3 = trace[, (2*dim(base)[2]+1):(3*dim(base)[2])]#
+glrm4 = trace[, (3*dim(base)[2]+1):(4*dim(base)[2])]#
+glrm5 = trace[, (4*dim(base)[2]+1):(5*dim(base)[2])]#
+glrm6 = trace[, (5*dim(base)[2]+1):(6*dim(base)[2])]#
+glrm7 = trace[, (6*dim(base)[2]+1):(7*dim(base)[2])]#
+glrm8 = trace[, (7*dim(base)[2]+1):(8*dim(base)[2])]#
+glrm9 = trace[, (8*dim(base)[2]+1):(9*dim(base)[2])]#
+glrm10 = trace[, (9*dim(base)[2]+1):(10*dim(base)[2])]#
+#
+check3 = MI_est(glrm1[,1:(cat1[1]-1)], glrm2[,1:(cat1[1]-1)], glrm3[,1:(cat1[1]-1)], glrm4[,1:(cat1[1]-1)], glrm5[,1:(cat1[1]-1)], glrm6[,1:(cat1[1]-1)], glrm7[,1:(cat1[1]-1)], glrm8[,1:(cat1[1]-1)], glrm9[,1:(cat1[1]-1)], base[,1:(cat1[1]-1)])#
+varcheck1 = numeric()#
+#
+for (i in 1: (cat1[1]-1)){#
+	varcheck1 = c(varcheck1,round(check3$varfin[i]/check1$varfin[i], 2) )}#
+varcheck2 = numeric()#
+#
+for (i in 1: (cat1[1]-1)){#
+	varcheck2 = c(varcheck2, round(check3$varfin[i]/check2$varfin[i], 2) )}#
+table1 = cbind(check1$means, check1$vars, check2$means, check2$vars,check3$means, check3$vars, varcheck1, varcheck2)#
+colnames(table1) = c("Amelia", "vars1",  "MICE", "vars2", "TRACE", "vars3", "TR/AM", "TR/MICE")#
+#
+nametable = numeric()#
+for (i in 1: (cat1[1]-1)){#
+	nametable = c(nametable, paste0("(", names(base)[i] , ")"))}#
+#
+rownames(table1) = nametable
+table1
+table2 = table1#
+colnames(table2) = c('Respondent age',#
+'How old were you when your first child was born?',#
+'Inflation-adjusted family income',#
+'How many male partners have you had sex with?',#
+'How many female partners have you had sex with?', #
+'How many brothers and sisters did you have?' ,#
+'Size of place of interview' ,#
+'In [the previous year] how many weeks did you work',#
+'Number of members over 17 years old' ,#
+'How often do you attend religious services?' ,#
+'Number of members under 6 years old' ,#
+'Which [social class] would you say you belong in?',#
+'In general, how close do you feel to Blacks?' ,#
+'In general, how close do you feel to Whites?',#
+'Respondent understanding of the questions',  #
+'Courts deal too harshly with criminals?' ,#
+'Respondent degree' ,#
+'How many in the family earned money last year?',#
+'Financial situation been getting better, worse, or same?',#
+'Family income below average, average, above average?' ,#
+'Fundamentalism/Liberalism of Respondent Religion' ,#
+'you are very happy, pretty happy, or not too happy?' ,#
+'your own health: excellent, good, fair, or poor?' ,#
+'When 16, family income compared to average?' ,#
+'Respondent mother degree' ,#
+'State expenditure on: Assistance for childcare?' ,#
+'State expenditure on: Alternative energy sources?',#
+'State expenditure on: Mass Transportation?',#
+'State expenditure on: Parks and Recreation?',#
+'State expenditure on: Highways and bridges?',#
+'State expenditure on: Supporting scientific research?'  ,#
+'State expenditure on: Social Security?',#
+'Respondent father degree',#
+'How many sex partners in the last 12 months?' ,#
+'How many sex partners in the past 5 years?',#
+'Extremely liberal to extremely conservative scale?'  ,#
+'About how often do you pray?' ,#
+'Number of  household members 6 to 12 years' ,#
+'Rank on Social Scale',#
+'How often do you take part in religious activities? ',#
+'Would you call yourself a strongly religious person?' ,#
+'Do you consider yourself a religious person?' ,#
+'Satisfaction with present financial situation',#
+'How satisfied are you with the work you do? ',#
+'How often did you have sex during the last 12 months?' ,#
+'Do you consider yourself a spiritual person?' ,#
+'Number of  members 13 to 17 years',#
+'What was your total time on active duty?' )
+tempnames= c('Respondent age',#
+'How old were you when your first child was born?',#
+'Inflation-adjusted family income',#
+'How many male partners have you had sex with?',#
+'How many female partners have you had sex with?', #
+'How many brothers and sisters did you have?' ,#
+'Size of place of interview' ,#
+'In [the previous year] how many weeks did you work',#
+'Number of members over 17 years old' ,#
+'How often do you attend religious services?' ,#
+'Number of members under 6 years old' ,#
+'Which [social class] would you say you belong in?',#
+'In general, how close do you feel to Blacks?' ,#
+'In general, how close do you feel to Whites?',#
+'Respondent understanding of the questions',  #
+'Courts deal too harshly with criminals?' ,#
+'Respondent degree' ,#
+'How many in the family earned money last year?',#
+'Financial situation been getting better, worse, or same?',#
+'Family income below average, average, above average?' ,#
+'Fundamentalism/Liberalism of Respondent Religion' ,#
+'you are very happy, pretty happy, or not too happy?' ,#
+'your own health: excellent, good, fair, or poor?' ,#
+'When 16, family income compared to average?' ,#
+'Respondent mother degree' ,#
+'State expenditure on: Assistance for childcare?' ,#
+'State expenditure on: Alternative energy sources?',#
+'State expenditure on: Mass Transportation?',#
+'State expenditure on: Parks and Recreation?',#
+'State expenditure on: Highways and bridges?',#
+'State expenditure on: Supporting scientific research?'  ,#
+'State expenditure on: Social Security?',#
+'Respondent father degree',#
+'How many sex partners in the last 12 months?' ,#
+'How many sex partners in the past 5 years?',#
+'Extremely liberal to extremely conservative scale?'  ,#
+'About how often do you pray?' ,#
+'Number of  household members 6 to 12 years' ,#
+'Rank on Social Scale',#
+'How often do you take part in religious activities? ',#
+'Would you call yourself a strongly religious person?' ,#
+'Do you consider yourself a religious person?' ,#
+'Satisfaction with present financial situation',#
+'How satisfied are you with the work you do? ',#
+'How often did you have sex during the last 12 months?' ,#
+'Do you consider yourself a spiritual person?' ,#
+'Number of  members 13 to 17 years',#
+'What was your total time on active duty?' )
+length(tempnames)
+colnames(table1)
+rownames(table1)
+table2 = table1#
+rownames(table2)= c('Respondent age',#
+'How old were you when your first child was born?',#
+'Inflation-adjusted family income',#
+'How many male partners have you had sex with?',#
+'How many female partners have you had sex with?', #
+'How many brothers and sisters did you have?' ,#
+'Size of place of interview' ,#
+'In [the previous year] how many weeks did you work',#
+'Number of members over 17 years old' ,#
+'How often do you attend religious services?' ,#
+'Number of members under 6 years old' ,#
+'Which [social class] would you say you belong in?',#
+'In general, how close do you feel to Blacks?' ,#
+'In general, how close do you feel to Whites?',#
+'Respondent understanding of the questions',  #
+'Courts deal too harshly with criminals?' ,#
+'Respondent degree' ,#
+'How many in the family earned money last year?',#
+'Financial situation been getting better, worse, or same?',#
+'Family income below average, average, above average?' ,#
+'Fundamentalism/Liberalism of Respondent Religion' ,#
+'you are very happy, pretty happy, or not too happy?' ,#
+'your own health: excellent, good, fair, or poor?' ,#
+'When 16, family income compared to average?' ,#
+'Respondent mother degree' ,#
+'State expenditure on: Assistance for childcare?' ,#
+'State expenditure on: Alternative energy sources?',#
+'State expenditure on: Mass Transportation?',#
+'State expenditure on: Parks and Recreation?',#
+'State expenditure on: Highways and bridges?',#
+'State expenditure on: Supporting scientific research?'  ,#
+'State expenditure on: Social Security?',#
+'Respondent father degree',#
+'How many sex partners in the last 12 months?' ,#
+'How many sex partners in the past 5 years?',#
+'Extremely liberal to extremely conservative scale?'  ,#
+'About how often do you pray?' ,#
+'Number of  household members 6 to 12 years' ,#
+'Rank on Social Scale',#
+'How often do you take part in religious activities? ',#
+'Would you call yourself a strongly religious person?' ,#
+'Do you consider yourself a religious person?' ,#
+'Satisfaction with present financial situation',#
+'How satisfied are you with the work you do? ',#
+'How often did you have sex during the last 12 months?' ,#
+'Do you consider yourself a spiritual person?' ,#
+'Number of  members 13 to 17 years',#
+'What was your total time on active duty?' )
+table2
+CompTab = xtable(table2, align = "|c|cc|cc|cc|cc|")#
+print(CompTab, type = "latex", file = "GSS_comp_fin.tex")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+CompTab = xtable(table2, align = "|c|cc|cc|cc|cc|")#
+print(CompTab, type = "latex", file = "GSS_comp_fin.tex")
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} #
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ) {l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}#
+		#print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l, lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS10.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+l.tr = rep(NA, 10)#
+l.aml = rep(NA, 10)#
+l.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+l.aml[1]  = sum(LOSS.AML1$lcol)#
+l.mice[1]= sum(LOSS.MICE1$lcol)#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+l.aml[2]= sum(LOSS.AML2$lcol)#
+l.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+l.aml[3] = sum(LOSS.AML3$lcol)#
+l.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+l.aml[4]= sum(LOSS.AML4$lcol)#
+l.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+l.aml[5] = sum(LOSS.AML5$lcol)#
+l.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+l.aml[6]  = sum(LOSS.AML6$lcol)#
+l.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+l.aml[7]= sum(LOSS.AML7$lcol)#
+l.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+l.aml[8] = sum(LOSS.AML8$lcol)#
+l.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+l.aml[9]= sum(LOSS.AML9$lcol)#
+l.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+l.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+l.aml[10] = sum(LOSS.AML10$lcol)#
+l.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr = mean(l.tr[1:9])#
+l.aml = mean(l.aml, na.rm = TRUE)#
+l.mice = mean(l.mice[1:9])#
+# Make Table here #
+#
+col1 = c(l.aml/10^3, l.mice/10^3, l.tr/10^3)#
+col2 = c(((l.aml-l.aml)/l.aml)*100, ((l.aml-l.mice)/l.aml)*100, ((l.aml-l.tr)/l.aml)*100)#
+col3 = c(((l.mice-l.aml)/l.mice)*100, ((l.mice-l.mice)/l.mice)*100,((l.mice-l.tr)/l.mice)*100)#
+M = cbind(round(col1,2), round(col2,2), round(col3,2))#
+rownames(M) = c("Amelia", "MICE", "Regularized Full Rank Quad + OH")#
+colnames(M) = c( "Scaled Loss/($10^3$)", "Improvement over Amelia", "Improvement over MICE")
+M
+l.tr = mean(l.tr, na.rm = TRUE)#
+l.aml = mean(l.aml, na.rm = TRUE)#
+l.mice = mean(l.mice, na.rm = TRUE)#
+# Make Table here #
+#
+col1 = c(l.aml/10^3, l.mice/10^3, l.tr/10^3)#
+col2 = c(((l.aml-l.aml)/l.aml)*100, ((l.aml-l.mice)/l.aml)*100, ((l.aml-l.tr)/l.aml)*100)#
+col3 = c(((l.mice-l.aml)/l.mice)*100, ((l.mice-l.mice)/l.mice)*100,((l.mice-l.tr)/l.mice)*100)#
+M = cbind(round(col1,2), round(col2,2), round(col3,2))#
+rownames(M) = c("Amelia", "MICE", "Regularized Full Rank Quad + OH")#
+colnames(M) = c( "Scaled Loss/($10^3$)", "Improvement over Amelia", "Improvement over MICE")
+M
+# LOSS CALCULATIONS#
+L.tr = rep(NA, 10)#
+L.aml = rep(NA, 10)#
+L.mice = rep(NA, 10)
+L.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+L.aml[1]  = sum(LOSS.AML1$lcol)#
+L.mice[1]= sum(LOSS.MICE1$lcol)
+L.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+L.aml[2]= sum(LOSS.AML2$lcol)#
+L.mice[2] = sum(LOSS.MICE2$lcol)
+L.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+L.aml[3] = sum(LOSS.AML3$lcol)#
+L.mice[3] = sum(LOSS.MICE3$lcol)
+L.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+L.aml[4]= sum(LOSS.AML4$lcol)#
+L.mice[4] = sum(LOSS.MICE4$lcol)
+L.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+L.aml[5] = sum(LOSS.AML5$lcol)#
+L.mice[5] = sum(LOSS.MICE5$lcol)
+L.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+L.aml[6]  = sum(LOSS.AML6$lcol)#
+L.mice[6] = sum(LOSS.MICE6$lcol)
+L.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+L.aml[7]= sum(LOSS.AML7$lcol)#
+L.mice[7] = sum(LOSS.MICE7$lcol)
+L.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+L.aml[8] = sum(LOSS.AML8$lcol)#
+L.mice[8] = sum(LOSS.MICE8$lcol)
+L.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+L.aml[9]= sum(LOSS.AML9$lcol)#
+L.mice[9] = sum(LOSS.MICE9$lcol)
+L.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+L.aml[10] = sum(LOSS.AML10$lcol)#
+L.mice[10] = sum(LOSS.MICE10$lcol)
+l.tr = mean(L.tr, na.rm = TRUE)#
+l.aml = mean(L.aml, na.rm = TRUE)#
+l.mice = mean(L.mice, na.rm = TRUE)
+col1 = c(l.aml/10^3, l.mice/10^3, l.tr/10^3)#
+col2 = c(((l.aml-l.aml)/l.aml)*100, ((l.aml-l.mice)/l.aml)*100, ((l.aml-l.tr)/l.aml)*100)#
+col3 = c(((l.mice-l.aml)/l.mice)*100, ((l.mice-l.mice)/l.mice)*100,((l.mice-l.tr)/l.mice)*100)#
+M = cbind(round(col1,2), round(col2,2), round(col3,2))#
+rownames(M) = c("Amelia", "MICE", "Regularized Full Rank Quad + OH")#
+colnames(M) = c( "Scaled Loss/($10^3$)", "Improvement over Amelia", "Improvement over MICE")
+M
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")
+mat = read.csv("GSSsparsitycomp.csv")
+mat
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)
+avg.tr
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)
+avg.mice
+avg.aml
+(avg.mice- avg.tr)/avg.mice
+(avg.aml- avg.tr)/avg.aml
+imp.mice = c("Improvement ove MICE", imp.mice)#
+imp.aml = c("Improvement ove Amelia", imp.aml)
+mat = read.csv("GSSsparsitycomp.csv")#
+#
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml#
+#
+avg.tr = c("mean trace", avg.tr)#
+avg.mice = c("mean mice", avg.tr)#
+avg.aml = c("mean aml", avg.tr)#
+#
+imp.mice = c("Improvement ove MICE", imp.mice)#
+imp.aml = c("Improvement ove Amelia", imp.aml)
+t(mat)
+summ_mat = rbind(mat[11:20,], avg.aml, mat[21:30,], avg.mice, mat[21:30,], avg.mice, mat[1:10,], avg.tr, imp.aml, imp.mice)
+summ_mat = rbind(mat[11:20,], avg.aml)
+summ_mat = cbind(mat[11:20,], avg.aml)
+mat[11:20,]
+avg.mice
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml
+avg.tr = c("mean trace", avg.tr)#
+avg.mice = c("mean mice", avg.tr)#
+avg.aml = c("mean aml", avg.tr)
+avg.mice
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml#
+#
+avg.tr = c("mean trace", avg.tr)#
+avg.mice = c("mean mice", avg.mice)#
+avg.aml = c("mean aml", avg.aml)#
+#
+imp.mice = c("Improvement ove MICE", imp.mice)#
+imp.aml = c("Improvement ove Amelia", imp.aml)
+avg.mice
+summ_mat = rbind(mat[21:30,], avg.aml)
+mat = read.csv("GSSsparsitycomp.csv")#
+#
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml
+summ_mat = rbind(mat[21:30,2:10], avg.aml)
+summ_mat
+summ_mat = rbind(mat[21:30, 2:10], avg.aml, mat[11:20, 2:10], avg.mice , mat[1:10, 2:10], avg.tr, imp.aml, imp.mice)
+summ_mat
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+rownames(mat) = c(rep("amelia", 10), "mean amelia", rep("mice", 10),  "mean mice", rep("trace", 10) ,  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+rownames(summ_mat) = c(rep("amelia", 10), "mean amelia", rep("mice", 10),  "mean mice", rep("trace", 10) ,  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+write.csv(mat, "GSSsparsitycomp.csv")#
+#
+mat = read.csv("GSSsparsitycomp.csv")#
+#
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml#
+summ_mat = rbind(mat[21:30, 2:10], avg.aml, mat[11:20, 2:10], avg.mice , mat[1:10, 2:10], avg.tr, imp.aml, imp.mice)#
+#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+rownames(summ_mat) = c(rep("amelia", 10), "mean amelia", rep("mice", 10),  "mean mice", rep("trace", 10) ,  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+rm(list = ls())
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+write.csv(mat, "GSSsparsitycomp.csv")#
+#
+mat = read.csv("GSSsparsitycomp.csv")#
+#
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml#
+summ_mat = rbind(mat[21:30, 2:10], avg.aml, mat[11:20, 2:10], avg.mice , mat[1:10, 2:10], avg.tr, imp.aml, imp.mice)
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)
+mat[1:10 , 2:10]
+mat
+mat = read.csv("GSSsparsitycomp.csv")#
+mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)#
+imp.mice = (avg.mice- avg.tr)/avg.mice#
+imp.aml = (avg.aml- avg.tr)/avg.aml#
+summ_mat = rbind(mat[21:30, 2:10], avg.aml, mat[11:20, 2:10], avg.mice , mat[1:10, 2:10], avg.tr, imp.aml, imp.mice)#
+#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+rownames(summ_mat) = c(rep("amelia", 10), "mean amelia", rep("mice", 10),  "mean mice", rep("trace", 10) ,  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+summ_mat
+c("am1","am1","am2","am3","am4","am5","am6","am7","am8","am9","am10", "mean amelia", "mice1", "mice2","mice3","mice4","mice5","mice6","mice7","mice8","mice9","mice10",  "mean mice", "trace1",  "trace2", "trace3", "trace4", "trace5", "trace6", "trace7", "trace8", "trace9", "trace10",  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+rownames(summ_mat) = c("am1","am1","am2","am3","am4","am5","am6","am7","am8","am9","am10", "mean amelia", "mice1", "mice2","mice3","mice4","mice5","mice6","mice7","mice8","mice9","mice10",  "mean mice", "trace1",  "trace2", "trace3", "trace4", "trace5", "trace6", "trace7", "trace8", "trace9", "trace10",  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+rown= c("am1","am1","am2","am3","am4","am5","am6","am7","am8","am9","am10", "mean amelia", "mice1", "mice2","mice3","mice4","mice5","mice6","mice7","mice8","mice9","mice10",  "mean mice", "trace1",  "trace2", "trace3", "trace4", "trace5", "trace6", "trace7", "trace8", "trace9", "trace10",  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+length(rown)
+rownames(summ_mat) = c("am1","am2","am3","am4","am5","am6","am7","am8","am9","am10", "mean amelia", "mice1", "mice2","mice3","mice4","mice5","mice6","mice7","mice8","mice9","mice10",  "mean mice", "trace1",  "trace2", "trace3", "trace4", "trace5", "trace6", "trace7", "trace8", "trace9", "trace10",  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+summ_mat
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+summ_mat = rbind(mat[21:30, 2:10], avg.aml, mat[11:20, 2:10], avg.mice , mat[1:10, 2:10], avg.tr, imp.aml, imp.mice)#
+#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+rownames(summ_mat) = c("am1","am2","am3","am4","am5","am6","am7","am8","am9","am10", "mean amelia", "mice1", "mice2","mice3","mice4","mice5","mice6","mice7","mice8","mice9","mice10",  "mean mice", "trace1",  "trace2", "trace3", "trace4", "trace5", "trace6", "trace7", "trace8", "trace9", "trace10",  "mean trace", "Improvement over Amelia", "Improvement over MICE" )
+summ_mat
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+dim(summ_mat)
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} #
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ) {l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}#
+		#print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l, lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s = b[!is.element(b,a)] # elements on which to do cv#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/AMELIA")#
+#
+load('amelia_GSS10_fin.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/MICE")#
+#
+load('MICE_GSS10.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/TRACE")#
+#
+trace = read.csv("Trace_GSS10fin.csv")#
+trace = trace[,-1]#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+# Amelia#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+AML8= factorLevels(am8, df.base, cat1)#
+AML9= factorLevels(am9, df.base, cat1)#
+AML10= factorLevels(am10, df.base, cat1)#
+#
+# MICE#
+MICE1 = factorLevels(W1, df.base, cat1)#
+MICE2 = factorLevels(W2, df.base, cat1)#
+MICE3 = factorLevels(W3, df.base, cat1)#
+MICE4 = factorLevels(W4, df.base, cat1)#
+MICE5 = factorLevels(W5, df.base, cat1)#
+MICE6 = factorLevels(W6, df.base, cat1)#
+MICE7 = factorLevels(W7, df.base, cat1)#
+MICE8 = factorLevels(W8, df.base, cat1)#
+MICE9 = factorLevels(W9, df.base, cat1)#
+MICE10 = factorLevels(W10, df.base, cat1)#
+#
+#TRACE#
+glrm1 = trace[, (0*dim(df.base)[2]+1):(1*dim(df.base)[2])]#
+glrm2 = trace[, (1*dim(df.base)[2]+1):(2*dim(df.base)[2])]#
+glrm3 = trace[, (2*dim(df.base)[2]+1):(3*dim(df.base)[2])]#
+glrm4 = trace[, (3*dim(df.base)[2]+1):(4*dim(df.base)[2])]#
+glrm5 = trace[, (4*dim(df.base)[2]+1):(5*dim(df.base)[2])]#
+glrm6 = trace[, (5*dim(df.base)[2]+1):(6*dim(df.base)[2])]#
+glrm7 = trace[, (6*dim(df.base)[2]+1):(7*dim(df.base)[2])]#
+glrm8 = trace[, (7*dim(df.base)[2]+1):(8*dim(df.base)[2])]#
+glrm9 = trace[, (8*dim(df.base)[2]+1):(9*dim(df.base)[2])]#
+glrm10 = trace[, (9*dim(df.base)[2]+1):(10*dim(df.base)[2])]#
+GLRM_TR1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_TR2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_TR3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_TR4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_TR5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_TR6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_TR7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_TR8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_TR9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_TR10 = factorLevels(glrm10, df.base, cat1)#
+# LOSS CALCULATIONS#
+L.tr = rep(NA, 10)#
+L.aml = rep(NA, 10)#
+L.mice = rep(NA, 10)#
+#
+#### 1 #
+LOSS.MICE1 = loss(MICE1,df.base,s,cat1,ord1 , real1 )#
+LOSS.AML1 = loss(AML1,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR1 = loss(GLRM_TR1,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[1]   = sum(LOSS.GLRM_TR1$lcol)#
+L.aml[1]  = sum(LOSS.AML1$lcol)#
+L.mice[1]= sum(LOSS.MICE1$lcol)#
+#### 2 #
+LOSS.MICE2 = loss(MICE2,df.base,s,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR2 = loss(GLRM_TR2,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[2] = sum(LOSS.GLRM_TR2$lcol)#
+L.aml[2]= sum(LOSS.AML2$lcol)#
+L.mice[2] = sum(LOSS.MICE2$lcol)  #
+#
+#### 3 #
+LOSS.MICE3 = loss(MICE3,df.base,s,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR3 = loss(GLRM_TR3,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[3] = sum(LOSS.GLRM_TR3$lcol)#
+L.aml[3] = sum(LOSS.AML3$lcol)#
+L.mice[3] = sum(LOSS.MICE3$lcol)  #
+#
+#### 4 #
+LOSS.MICE4 = loss(MICE4,df.base,s,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR4 = loss(GLRM_TR4,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[4] = sum(LOSS.GLRM_TR4$lcol)#
+L.aml[4]= sum(LOSS.AML4$lcol)#
+L.mice[4] = sum(LOSS.MICE4$lcol)  #
+#
+#### 5 #
+LOSS.MICE5 = loss(MICE5,df.base,s,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR5 = loss(GLRM_TR5,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[5] = sum(LOSS.GLRM_TR5$lcol)#
+L.aml[5] = sum(LOSS.AML5$lcol)#
+L.mice[5] = sum(LOSS.MICE5$lcol)  #
+#
+#### 6 #
+LOSS.MICE6 = loss(MICE6,df.base,s,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR6 = loss(GLRM_TR6,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[6]   = sum(LOSS.GLRM_TR6$lcol)#
+L.aml[6]  = sum(LOSS.AML6$lcol)#
+L.mice[6] = sum(LOSS.MICE6$lcol)#
+#
+#### 7 #
+LOSS.MICE7 = loss(MICE7,df.base,s,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR7 = loss(GLRM_TR7,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[7] = sum(LOSS.GLRM_TR7$lcol)#
+L.aml[7]= sum(LOSS.AML7$lcol)#
+L.mice[7] = sum(LOSS.MICE7$lcol)  #
+#
+#### 8 #
+LOSS.MICE8 = loss(MICE8,df.base,s,cat1,ord1, real1 )#
+LOSS.AML8 = loss(AML8,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR8 = loss(GLRM_TR8,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[8] = sum(LOSS.GLRM_TR8$lcol)#
+L.aml[8] = sum(LOSS.AML8$lcol)#
+L.mice[8] = sum(LOSS.MICE8$lcol)  #
+#
+#### 9#
+LOSS.MICE9 = loss(MICE9,df.base,s,cat1,ord1, real1 )#
+LOSS.AML9 = loss(AML9,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR9 = loss(GLRM_TR9,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[9] = sum(LOSS.GLRM_TR9$lcol)#
+L.aml[9]= sum(LOSS.AML9$lcol)#
+L.mice[9] = sum(LOSS.MICE9$lcol)  #
+#
+#### 10#
+LOSS.MICE10 = loss(MICE10,df.base,s,cat1,ord1, real1 )#
+LOSS.AML10 = loss(AML10,df.base,s,cat1,ord1, real1 )#
+LOSS.GLRM_TR10 = loss(GLRM_TR10,df.base,s,cat1,ord1, real1 )#
+#
+L.tr[10] = sum(LOSS.GLRM_TR10$lcol)#
+L.aml[10] = sum(LOSS.AML10$lcol)#
+L.mice[10] = sum(LOSS.MICE10$lcol)  #
+#
+l.tr = mean(L.tr, na.rm = TRUE)#
+l.aml = mean(L.aml, na.rm = TRUE)#
+l.mice = mean(L.mice, na.rm = TRUE)#
+# Make Table here #
+#
+col1 = c(l.aml/10^3, l.mice/10^3, l.tr/10^3)#
+col2 = c(((l.aml-l.aml)/l.aml)*100, ((l.aml-l.mice)/l.aml)*100, ((l.aml-l.tr)/l.aml)*100)#
+col3 = c(((l.mice-l.aml)/l.mice)*100, ((l.mice-l.mice)/l.mice)*100,((l.mice-l.tr)/l.mice)*100)#
+M = cbind(round(col1,2), round(col2,2), round(col3,2))#
+rownames(M) = c("Amelia", "MICE", "Regularized Full Rank Quad + OH")#
+colnames(M) = c( "Scaled Loss/($10^3$)", "Improvement over Amelia", "Improvement over MICE")#
+ lossTab = xtable(M, align = "|c|c|c|c|")#
+print(lossTab, type = "latex", file = "lossTab_GSS10.tex")
+LOSS.MICE10
+LOSS.MICE10$lcol
+dim(LOSS.MICE10$lcol)
+length(LOSS.MICE10$lcol)
+LAML = rbind(LOSS.AML1$lcol, LOSS.AML2$lcol)
+LAML
+LAML = cbind(LOSS.AML1$lcol, LOSS.AML2$lcol)
+LAML
+LAML = cbind(LOSS.AML1$lcol, LOSS.AML2$lcol, LOSS.AML3$lcol, LOSS.AML4$lcol, LOSS.AML5$lcol, LOSS.AML6$lcol, LOSS.AML7$lcol, LOSS.AML8$lcol, LOSS.AML9$lcol, LOSS.AML10$lcol)
+LAML = cbind(LOSS.AML1$lcol, LOSS.AML2$lcol, LOSS.AML3$lcol, LOSS.AML4$lcol, LOSS.AML5$lcol, LOSS.AML6$lcol,LOSS.AML8$lcol, LOSS.AML9$lcol, LOSS.AML10$lcol)
+LMICE = cbind(LOSS.MICE1$lcol, LOSS.MICE2$lcol, LOSS.MICE3$lcol, LOSS.MICE4$lcol, LOSS.MICE5$lcol, LOSS.MICE6$lcol, LOSS.MICE7$lcol, LOSS.MICE8$lcol, LOSS.MICE9$lcol, LOSS.MICE10$lcol)
+LTRACE = cbind(LOSS.GLRM_TR1$lcol, LOSS.GLRM_TR2$lcol, LOSS.GLRM_TR3$lcol, LOSS.GLRM_TR4$lcol, LOSS.GLRM_TR5$lcol, LOSS.GLRM_TR6$lcol, LOSS.GLRM_TR7$lcol, LOSS.GLRM_TR8$lcol, LOSS.GLRM_TR9$lcol, LOSS.GLRM_TR10$lcol)
+LTRACE
+LOSS.AML = apply(LAML, 1, mean, na.rm = TRUE)
+LOSS.AML
+lcol.all = cbind(LOSS.AML, LOSS.MICE, LOSS.TRACE)
+LOSS.AML = apply(LAML, 1, mean, na.rm = TRUE)#
+LOSS.MICE = apply(LMICE, 1, mean, na.rm = TRUE)#
+LOSS.TRACE = apply(LTRACE, 1, mean, na.rm = TRUE)
+lcol.all = cbind(LOSS.AML, LOSS.MICE, LOSS.TRACE)
+col.labs = names(df.base)#
+#
+# columnwise gains over Amelia#
+tr.aml.lcol  = 100*(lcol.all[,1] -lcol.all[,3])/lcol.all[,1]#
+# columnwise gains over MICE#
+#
+tr.mice.lcol  = 100*(lcol.all[,2] -lcol.all[,3])/lcol.all[,2]
+tr.aml.lcol
+tr.mice.lcol
+plot(density(tr.mice.lcol), col = "blue", xlim = c(-100, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-100, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain", yaxt = "n", ylab = "", main = "")
+col.labs
+meth.select = numeric()#
+col.meth.select = numeric()#
+col.account = rep(0,2)#
+for (v in 1: dim(lcol.all)[1]){#
+	meth.select = c(meth.select, which(lcol.all[v,] == min(lcol.all[v,])))#
+	col.meth.select = c(col.meth.select, col.labs[v], which(lcol.all[v,] == min(lcol.all[v,])) )#
+	col.account = rbind(col.account, c(v, length(which(lcol.all[v,] == min(lcol.all[v,])))))	}#
+#
+col.account= col.account[-1, ]
+meth.select
+hist(meth.select)
+tr_list = which(meth.select == 3)#
+mice_list = which(meth.select == 2)#
+aml_list = which(meth.select == 1)
+real_list = real1#
+ord_list = ord1#
+cat_list = cat1#
+#
+tr_list = which(meth.select == 3)#
+mice_list = which(meth.select == 2)#
+aml_list = which(meth.select == 1)#
+all_col = c(length(real_list), length(ord_list), length(cat_list) )#
+#
+tr_col = c(sum(is.element(tr_list, real_list) == TRUE), sum(is.element(tr_list, ord_list)== TRUE), sum(is.element(tr_list, cat_list)== TRUE))#
+mice_col = c(sum(is.element(mice_list, real_list) == TRUE), sum(is.element(mice_list, ord_list)== TRUE), sum(is.element(mice_list, cat_list)== TRUE))#
+aml_col = c(sum(is.element(aml_list, real_list) == TRUE), sum(is.element(aml_list, ord_list)== TRUE), sum(is.element(aml_list, cat_list)== TRUE))#
+test = cbind(aml_col, mice_col, tr_col )
+barplot(test, horiz = TRUE, legend=  c("real", "ordinal", "categorical"), args.legend=list( x ="bottomright") , las = 2,  names.arg= c("AMELIA", "MICE",  "TRACE")
+)
+barplot(test, horiz = TRUE, beside = TRUE, legend=  c("real", "ordinal", "categorical"), args.legend=list( x ="bottomright") , las = 2, names.arg= c("AMELIA", "MICE",  "TRACE"))
+hist(tr.aml.lcol,xlab = "", main= "Regularized Full Rank (Quad + OH)", col = rgb(0.1,0.65,0.5), xlim = c(-150, 100), breaks = 10, ylim = c(0,50))
+par(mfrow = c(2,1))#
+hist(tr.aml.lcol,xlab = "", main= "Trace amelia", col = rgb(0.1,0.65,0.5), xlim = c(-200, 100), breaks = 10, ylim = c(0,50))#
+hist(tr.aml.lcol,xlab = "", main= "Trace mice", col = rgb(0.1,0.65,0.5), xlim = c(-200, 100), breaks = 10, ylim = c(0,50))
+par(mfrow = c(2,1))#
+hist(tr.aml.lcol,xlab = "", main= "Trace amelia", col = rgb(0.1,0.65,0.5), xlim = c(-200, 100), breaks = 10, ylim = c(0,50))#
+hist(tr.mice.lcol,xlab = "", main= "Trace mice", col = rgb(0.1,0.65,0.5), xlim = c(-200, 100), breaks = 10, ylim = c(0,50))
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-100, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "lightblue", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "lightblue"))
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "lightblue", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "lightblue"))
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))
+lines(rep(0, 40) , seq(0,0.025, length.out = 40 ), lty = 1)
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))#
+lines(rep(0, 40) , seq(0,0.025, length.out = 40 ), lty = 1)
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))#
+lines(rep(0, 40) , seq(0,0.025, length.out = 40 ), lty = 2)
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))#
+lines(rep(0, 40) , seq(0,0.03, length.out = 40 ), lty = 2)
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))#
+lines(rep(0, 40) , seq(-0.001,0.03, length.out = 40 ), lty = 2)
+pdf("DensityGain_GSS10.pdf")#
+plot(density(tr.aml.lcol), col = "blue", xlim = c(-200, 100), ylim = c(0, 0.025), lwd = 5, xlab = "Percentage Gain",  yaxt = "n", ylab = "", main = "")#
+#axis(2, at = seq(0, 0.04, 0.01), labels = paste(seq(0, 40, 10) , "%", sep = ""))#
+lines(density(tr.mice.lcol), col = "darkgreen", lwd = 5)#
+legend("topleft", c("AML", "MICE"), lty = c(1,1), lwd = c(5,5),  col = c("blue", "darkgreen"))#
+lines(rep(0, 40) , seq(-0.001,0.03, length.out = 40 ), lty = 2)#
+dev.off()
+pdf("modelSelect_GSS.pdf")#
+barplot(test, horiz = TRUE, legend=  c("real", "ordinal", "categorical"), args.legend=list( x ="bottomright") , las = 2,  names.arg= c("AMELIA", "MICE",  "TRACE"))#
+dev.off()#
+pdf("modelSelect_GSS_sep.pdf")#
+barplot(test, horiz = TRUE, beside = TRUE, legend=  c("real", "ordinal", "categorical"), args.legend=list( x ="bottomright") , las = 2, names.arg= c("AMELIA", "MICE",  "TRACE"))#
+dev.off()
+mat
+missing_prop = seq(10, 90, by = 10)#
+ymax = max(max(mat))#
+ymin = min(min(mat))
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")
+mat = read.csv("GSSsparsitycomp.csv")#
+mat = mat[,-1]
+missing_prop = seq(10, 90, by = 10)#
+ymax = max(max(mat[,-1], na.rm = TRUE))#
+ymin = min(min(mat[,-1], na.rm = TRUE))
+ymax
+ymin
+ymax = 1.05*max(max(mat[,-1], na.rm = TRUE))#
+ymin = 0.95*min(min(mat[,-1], na.rm = TRUE))
+ymax
+ymin
+avg.tr = apply(mat[1:10 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[11:20 , 2:10], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[21:30 , 2:10], 2 , mean, na.rm = TRUE)
+avg.tr
+plot(missing_prop, avg.aml, type = "b", col = rgb(1,0, 0), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", xlim = c(10, 90), ylim = c(ymin, ymax ), pch = 19, yaxt = "n")#
+lines(missing_prop, avg.mice,  type = "b", col = rgb(0,1,0), pch = 19)#
+lines(missing_prop, avg.tr, type = "b", col = rgb(0,0,1), pch = 19)#
+axis(1, at = seq(10, 90, by = 10))#
+axis(2, at = seq(5000, 100000, by = 10000))#
+#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "green", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+std.tr = apply(mat[1:10 , 2:10], 2 , std, na.rm = TRUE)#
+std.mice = apply(mat[11:20 , 2:10], 2 , std, na.rm = TRUE)#
+std.aml = apply(mat[21:30 , 2:10], 2 , std, na.rm = TRUE)
+std.tr = apply(mat[1:10 , 2:10], 2 , sd, na.rm = TRUE)#
+std.mice = apply(mat[11:20 , 2:10], 2 , sd, na.rm = TRUE)#
+std.aml = apply(mat[21:30 , 2:10], 2 , sd, na.rm = TRUE)
+std.tr
+std.mice
+std.aml
+mat
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+###### 10#
+rm(list = ls())#
+#
+check = load("amelia_NLSY10 (1).RData")
+check
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+###### 10#
+rm(list = ls())#
+#
+load("amelia_NLSY10.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY10 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY10_fin")
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY10_fin.RData")
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY10_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+am1
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/amelia_NLSY10_fin.RData")
+head(am1)
+head(am10)
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+rm(list = ls())#
+#
+load("amelia_NLSY20.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY20 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY20_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 30#
+rm(list = ls())#
+load("amelia_NLSY30.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY30 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY30_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 40#
+rm(list = ls())#
+load("amelia_NLSY40.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY40 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY40_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 50#
+rm(list = ls())#
+#
+load("amelia_NLSY50.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY50 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY50_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 60#
+rm(list = ls())#
+#
+load("amelia_NLSY60.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY60 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY60_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 70#
+rm(list = ls())#
+load("amelia_NLSY70.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY70 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY70_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 80#
+rm(list = ls())#
+load("amelia_NLSY80.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY80 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY80_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+###### 90#
+rm(list = ls())#
+#
+load("amelia_NLSY90.RData")#
+#
+am6 = am1#
+am7 = am2#
+am8 = am3#
+am9 = am4#
+am10 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY90 (1).RData")#
+#
+save( am1, am2, am3, am4, am5, am6, am7, am8, am9, am10, file = "amelia_NLSY90_fin.RData")#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, am8, am9, am10)
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/amelia_NLSY10_fin.RData")
+dim(am1)
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/TRACE")#
+#
+###### 10#
+rm(list = ls())#
+#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY10_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY10_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY10_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY10_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY10_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY10fin.csv")
+###### 20#
+col = 49#
+n = 0 #
+rm(list = ls())#
+#
+df0 = read.csv("Trace_NLSY20_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY20_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY20_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY20_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY20_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY20fin.csv")
+col
+dim(df_fin)[2]/49
+###### 30#
+rm(list = ls())#
+#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY30_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY30_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY30_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY30_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY30_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY30fin.csv")
+###### 40#
+rm(list = ls())#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY40_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY40_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY40_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY40_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY40_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY40fin.csv")
+###### 50#
+rm(list = ls())#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY50_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY50_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY50_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY50_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY50_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY50fin.csv")
+###### 60#
+rm(list = ls())#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY60_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY60_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY60_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY60_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY60_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY60fin.csv")
+###### 70#
+rm(list = ls())#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY70_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY70_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY70_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY70_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY70_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY70fin.csv")
+###### 80#
+rm(list = ls())#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY80_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY80_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY80_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY80_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY80_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY80fin.csv")
+###### 90#
+rm(list = ls())#
+#
+col = 49#
+n = 0 #
+#
+df0 = read.csv("Trace_NLSY90_MI.csv")#
+n = n + dim(df0)[2]/col#
+n#
+#
+df1 = read.csv("Trace_NLSY90_MI (1).csv")#
+n = n + dim(df1)[2]/col#
+n#
+#
+df2 = read.csv("Trace_NLSY90_MI (2).csv")#
+n = n + dim(df2)[2]/col#
+n#
+#
+df3 = read.csv("Trace_NLSY90_MI (3).csv")#
+n = n + dim(df3)[2]/col#
+n#
+#
+df4 = read.csv("Trace_NLSY90_MI (4).csv")#
+n = n + dim(df4)[2]/col#
+n#
+#
+df_fin = cbind(df0, df1, df2, df3, df4)#
+write.csv(df_fin, "Trace_NLSY90fin.csv")
+###### 10#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")
+###### 10#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY10.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am25 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY10 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY10_fin_copy.RData")
+###### 10#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY10.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY10 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY10_fin_copy.RData")
+###### 20#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY20.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY20 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY20_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY30.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY30 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY30_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY40.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY40 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY40_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY50.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY50 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY50_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY60.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY60 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY60_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY70.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY70 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY70_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY80.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY80 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY80_fin_copy.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA/second batch")#
+#
+load("amelia_NLSY90.RData")#
+#
+am11 = am1#
+am12 = am2#
+am13 = am3#
+am14 = am4#
+am15 = am5 #
+#
+rm(am1, am2, am3, am4, am5)#
+#
+load("amelia_NLSY90 (1).RData")#
+#
+am16 = am1#
+am17 = am2#
+am18 = am3#
+am19 = am4#
+am20 = am5 #
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/AMELIA")#
+#
+save( am11, am12, am13, am14, am15, am16, am17, am18, am19, am20, file = "amelia_NLSY90_fin_copy.RData")

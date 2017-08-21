@@ -1,0 +1,1168 @@
+x = rnorm(10)
+x
+z = rnorm(20)
+table(x)
+table(z)
+table(x,z)
+require(devtools)#
+install_github("Amelia", user = "IQSS", ref = "develop")
+?install_github
+available.packages()
+install.packages("Amelia")
+installed.packages()
+remove.packages("Amelia")
+installed.packages()
+library("Amelia")
+library("devtools")
+install_github("Amelia", user = "IQSS", ref = "develop")
+library("Amelia")
+installed.packages()
+?amelia
+detechCores()
+detectCores()
+install.packages("parallel")
+library("parallel")
+detectCores()
+version()
+R.version()
+R.Version()
+library(e1071)
+include.packages("e1071")
+include.package("e1071")
+install.packages("e1071")
+raw < - replicate(10, rpois(50,100))#
+raw.orig <- raw
+raw <- replicate(10, rpois(50,100))
+raw.orig <- raw
+raw
+rand.miss <- rdiscrete(50,probs=rep(1:length(raw)), values=seq(1,length(raw)) )
+raw[rand.miss] <- NA
+raw <- data.frame(raw)
+rand.miss <- discrete(50,probs=rep(1:length(raw)), values=seq(1,length(raw)) )
+library("e1071")
+rand.miss <- rdiscrete(50,probs=rep(1:length(raw)), values=seq(1,length(raw)) )
+raw[rand.miss] <- NA#
+raw <- data.frame(raw)
+rm(list = ls())
+library(e1071)#
+raw <- replicate(10, rpois(50,100))#
+raw.orig <- raw#
+rand.miss <- discrete(50,probs=rep(1:length(raw)), values=seq(1,length(raw)) )#
+raw[rand.miss] <- NA#
+raw <- data.frame(raw)#
+var(na.omit(raw) )#
+var(raw.imputed)
+rm(list = ls())
+library(e1071)#
+raw <- replicate(10, rpois(50,100))#
+raw.orig <- raw#
+rand.miss <- rdiscrete(50,probs=rep(1:length(raw)), values=seq(1,length(raw)) )#
+raw[rand.miss] <- NA#
+raw <- data.frame(raw)#
+var(na.omit(raw) )#
+var(raw.imputed)
+var(raw.orig)
+raw
+x = raw
+missvals <- is.na(x)
+missvals
+pick.miss <-( c( missvals[i,]) )
+i = 1
+pick.miss <-( c( missvals[i,]) )
+pick.miss
+i = 49
+pick.miss
+pick.miss <-( c( missvals[i,]) )
+pick.miss
+!pick.miss
+sig[!pick.miss,!pick.miss]
+sig <- as.matrix(var(na.exclude(x)))
+sig[!pick.miss,!pick.miss]
+inv.S <- solve(sig[!pick.miss,!pick.miss]) # we need the inverse of the covariance
+mean.vec[pick.miss]
+mean.vec <- as.matrix(apply(na.exclude(x),2,mean))
+mean.vec[pick.miss]
+sig[pick.miss,!pick.miss]
+new.impute<-x
+new.impute[i,!pick.miss]
+t(mean.vec[!pick.miss]))
+t(mean.vec[!pick.miss])
+check = c("a", "b", "c")
+check
+check2 = c( 'b', 'c')
+check2
+check2 = c( '"b"', '"c"')
+check2
+rm(list = ls())#
+setwd("/Users/Nandana/Google Drive/Data_eLHS3/Final/Logistic")#
+#
+source("DR_estimates.R")#
+#library("#textreg")#
+library("xtable")#
+#
+rowlab = c("ATE", "0.95 C.I.", "Model", "% change")#
+######### Northeast#
+#
+load("ne_e.RData")#
+load("X_ne_e.RData")#
+#
+###  Data#
+#
+w_ne = data_ne$W.e#
+y_ne = data_ne$Y.e#
+X_ne = X_ne[, -which(colnames(X_ne)=="prev_abort_ind")]#
+data_ne = cbind(y_ne, w_ne, X_ne)#
+colnames(data_ne)[1] = "y"#
+colnames(data_ne)[2] = "w"
+check = c(0, 0.025, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5,  0.75, 1, 2.5,  5, 7.5, 10)
+check
+plot(check)
+plot(log(check))
+plot(ln(check))
+check = c(0, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5,  0.75, 1, 2.5,  5, 7.5, 10)
+plot(check)
+plot(log(check))
+runif(10, 0, 1)
+runif(10, c(0,1), c(0,1))
+runif(10, c(0,1))
+runif(10, c(0,0), c(1,1))
+install.packages("car")
+library("car")
+##################################################################
+#### This code creates a dataset out of the original GSS2014 data -- #
+#
+# GSS2014cleaned -- removes all columns with 1) more than 33% entries missing & 2) high correlation ( > 0.75) and factor columns with more than 10 levels#
+#
+### We also generate two lists of column indices per cleaned dataset -- list of ordinal variables, list of nonordinal categorical variables#
+#
+###################################################################
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+check = read.csv("GSS2014.csv")#
+library("polycor")#
+col1 = dim(check)[2]#
+#
+# GSS2014clean#
+#
+#removing columns with more than 33% missing values#
+#
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.33*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]#
+#
+# nonvarying variables#
+novary = which(names(check)=="away1" | names(check)=="away2" | names(check) =="away3" | names(check) == "away4"| names(check)=="away5" | names(check)=="formwt"| names(check) == "gender10"| names(check)=="mar9" | names(check)=="mar10"| names(check)=="relate1" | names(check) =="relate8" | names(check) == "relhh1"| names(check)=="relhhd1" | names(check)=="relhhd8"| names(check) == "relsp2" )#
+#
+l = l+ length(novary)#
+#
+check = check[, -novary]#
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]#
+# id variables#
+ids = which(names(check)=="dateintv" | names(check)=="year" | names(check) =="id" | names(check) == "X"| names(check)=="vstrat" | names(check)=="vpsu"| names(check) == "wtss"| names(check)=="wtssnr" | names(check)=="wtssall"| names(check)=="intrwt" | names(check) =="oversamp"| names(check) == "formwt"| names(check)== "intage" |  names(check)== "intid" | names(check)== "isco88"| names(check)== "lngthinv" |names(check)== "paisco88"| names(check)== "sampcode")#
+#
+l = l+length(ids)#
+#
+check = check[, - ids]#
+#
+dim(check)[2] - (col1 - l) == 0#
+df = check#
+# 641#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	corr.check = numeric()#
+	na.meth = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+	    corr.check = c(corr.check, a$correlations[1,2])#
+	    na.meth = c(na.meth, a$NA.method)#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}#
+dim(df)#
+#
+# list of factor variables#
+fac = which(sapply(df,class) == "factor")#
+###################################################################
+#
+# recode ordinal variables#
+#
+# list of factor variables#
+ord = c(1, 6, 7, 12, 13, 14, 15, 16, 21, 23, 26, 36,  37, 39, 42, 43, 48, 52, 58, 59, 60, 61, 62, 63, 64, 70, 72, 73,  78, 80, 81, 84, 88, 91, 92, 96, 97, 99, 103, 105, 106)#
+noms = fac[!is.element(fac, ord)]#
+VARNOMS = df[, noms]#
+#
+VARORDS = numeric()#
+#VARNAME= recode(ORDNOMS3[,], "'' = 1; ''=2; ''= 3; '' = 4; '' = 5; ''=6 ")#
+#
+library("car")#
+#
+ADULTS = df[,ord[1]]#
+#
+ATTEND = as.numeric(recode(df[,ord[2]], "'never' = 1; 'LT ONCE A YEAR'= 2; 'ONCE A YEAR'=3; 'SEVRL TIMES A YR'= 4; 'ONCE A MONTH' = 5; '2-3X A MONTH' = 6; 'NRLY EVERY WEEK'=7; 'EVERY WEEK'= 8 ; 'MORE THN ONCE WK'= 9"))
+install.packages("polycar")
+install.packages("polycor")
+##################################################################
+#### This code creates a dataset out of the original GSS2014 data -- #
+#
+# GSS2014cleaned -- removes all columns with 1) more than 33% entries missing & 2) high correlation ( > 0.75) and factor columns with more than 10 levels#
+#
+### We also generate two lists of column indices per cleaned dataset -- list of ordinal variables, list of nonordinal categorical variables#
+#
+###################################################################
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+check = read.csv("GSS2014.csv")#
+library("polycor")#
+col1 = dim(check)[2]#
+#
+# GSS2014clean#
+#
+#removing columns with more than 33% missing values#
+#
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.33*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]#
+#
+# nonvarying variables#
+novary = which(names(check)=="away1" | names(check)=="away2" | names(check) =="away3" | names(check) == "away4"| names(check)=="away5" | names(check)=="formwt"| names(check) == "gender10"| names(check)=="mar9" | names(check)=="mar10"| names(check)=="relate1" | names(check) =="relate8" | names(check) == "relhh1"| names(check)=="relhhd1" | names(check)=="relhhd8"| names(check) == "relsp2" )#
+#
+l = l+ length(novary)#
+#
+check = check[, -novary]#
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]#
+# id variables#
+ids = which(names(check)=="dateintv" | names(check)=="year" | names(check) =="id" | names(check) == "X"| names(check)=="vstrat" | names(check)=="vpsu"| names(check) == "wtss"| names(check)=="wtssnr" | names(check)=="wtssall"| names(check)=="intrwt" | names(check) =="oversamp"| names(check) == "formwt"| names(check)== "intage" |  names(check)== "intid" | names(check)== "isco88"| names(check)== "lngthinv" |names(check)== "paisco88"| names(check)== "sampcode"| names(check)== "form"| names(check)== "hefinfo"| names(check)== "phase"| names(check)== "respnum")#
+#
+l = l+length(ids)#
+#
+check = check[, - ids]#
+#
+dim(check)[2] - (col1 - l) == 0#
+df = check#
+# 641
+dim(df)
+while (j < maxcol){#
+	corvec = numeric()#
+	corr.check = numeric()#
+	na.meth = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+	    corr.check = c(corr.check, a$correlations[1,2])#
+	    na.meth = c(na.meth, a$NA.method)#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}
+j
+dim(df)
+maxcol
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	corr.check = numeric()#
+	na.meth = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+	    corr.check = c(corr.check, a$correlations[1,2])#
+	    na.meth = c(na.meth, a$NA.method)#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}#
+dim(df)
+fac = which(sapply(df,class) == "factor")
+fa
+fac
+##################################################################
+#### This code creates a dataset out of the original GSS2014 data -- #
+#
+# GSS2014cleaned -- removes all columns with 1) more than 33% entries missing & 2) high correlation ( > 0.75) and factor columns with more than 10 levels#
+#
+### We also generate two lists of column indices per cleaned dataset -- list of ordinal variables, list of nonordinal categorical variables#
+###################################################################
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+check = read.csv("GSS2014.csv")#
+library("polycor")#
+col1 = dim(check)[2]#
+#
+# GSS2014clean#
+#
+#removing columns with more than 33% missing values#
+#
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.33*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]#
+#
+# nonvarying variables#
+novary = which(names(check)=="away1" | names(check)=="away2" | names(check) =="away3" | names(check) == "away4"| names(check)=="away5" | names(check)=="formwt"| names(check) == "gender10"| names(check)=="mar9" | names(check)=="mar10"| names(check)=="relate1" | names(check) =="relate8" | names(check) == "relhh1"| names(check)=="relhhd1" | names(check)=="relhhd8"| names(check) == "relsp2" )#
+#
+l = l+ length(novary)#
+#
+check = check[, -novary]#
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]#
+# id variables#
+ids = which(names(check)=="dateintv" | names(check)=="year" | names(check) =="id" | names(check) == "X"| names(check)=="vstrat" | names(check)=="vpsu"| names(check) == "wtss"| names(check)=="wtssnr" | names(check)=="wtssall"| names(check)=="intrwt" | names(check) =="oversamp"| names(check) == "formwt"| names(check)== "intage" |  names(check)== "intid" | names(check)== "isco88"| names(check)== "lngthinv" |names(check)== "paisco88"| names(check)== "sampcode")#
+#
+l = l+length(ids)#
+#
+check = check[, - ids]#
+#
+dim(check)[2] - (col1 - l) == 0#
+df = check#
+# 641#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	corr.check = numeric()#
+	na.meth = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+	    corr.check = c(corr.check, a$correlations[1,2])#
+	    na.meth = c(na.meth, a$NA.method)#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}#
+dim(df)#
+#
+# list of factor variables#
+fac = which(sapply(df,class) == "factor")
+###################################################################
+#
+# recode ordinal variables#
+#
+# list of factor variables#
+ord = c(1, 6, 7, 12, 13, 14, 15, 16, 21, 23, 26, 36,  37, 39, 42, 43, 48, 52, 58, 59, 60, 61, 62, 63, 64, 70, 72, 73,  78, 80, 81, 84, 88, 91, 92, 96, 97, 99, 103, 105, 106)#
+noms = fac[!is.element(fac, ord)]#
+VARNOMS = df[, noms]#
+#
+VARORDS = numeric()#
+#VARNAME= recode(ORDNOMS3[,], "'' = 1; ''=2; ''= 3; '' = 4; '' = 5; ''=6 ")#
+#
+library("car")#
+#
+ADULTS = df[,ord[1]]#
+#
+ATTEND = as.numeric(recode(df[,ord[2]], "'never' = 1; 'LT ONCE A YEAR'= 2; 'ONCE A YEAR'=3; 'SEVRL TIMES A YR'= 4; 'ONCE A MONTH' = 5; '2-3X A MONTH' = 6; 'NRLY EVERY WEEK'=7; 'EVERY WEEK'= 8 ; 'MORE THN ONCE WK'= 9"))#
+BABIES = df[, ord[3]]#
+#
+CHILDS = df[, ord[4]]#
+#
+CLASS = as.numeric(recode(df[,ord[5]], "'LOWER CLASS' = 1; 'WORKING CLASS'=2; 'MIDDLE CLASS'= 3; 'UPPER CLASS' = 4 "))#
+CLOSEBLK = df[, ord[6]]#
+#
+CLOSEWHT = df[,ord[7]]#
+#
+COMPREND = as.numeric(recode(df[,ord[8]], "'poor' = 1; 'fair'=2; 'good'= 3"))#
+#
+COURTS = as.numeric(recode(df[,ord[9]], "'NOT HARSH ENOUGH' = 1; 'ABOUT RIGHT'=2; 'TOO HARSH'= 3"))#
+#
+DEGREE = as.numeric(recode(df[,ord[10]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+EARNRS = df[,ord[11]]#
+#
+FINALTER = as.numeric(recode(df[,ord[12]], "'worse' = 1; 'STAYED SAME'=2; 'better'= 3 "))#
+#
+FINRELA = as.numeric(recode(df[,ord[13]], "'FAR BELOW AVERAGE' = 1; 'BELOW AVERAGE'=2; 'average'= 3; 'ABOVE AVERAGE' = 4; 'FAR ABOVE AVERAGE' = 5 "))#
+#
+FUND = as.numeric(recode(df[,ord[14]], "'fundamentalist' = 3; 'moderate'=2; 'liberal'= 1"))#
+#
+HAPPY = as.numeric(recode(df[,ord[15]], "'NOT TOO HAPPY' = 1; 'PRETTY HAPPY'=2; 'VERY HAPPY'= 3 "))#
+#
+HEALTH = as.numeric(recode(df[,ord[16]], "'poor' = 1; 'fair'=2; 'good'= 3; 'excellent' = 4 "))#
+#
+INCOM16 = as.numeric(recode(df[,ord[17]], "'FAR BELOW AVERAGE' = 1; 'BELOW AVERAGE'=2; 'average'= 3; 'ABOVE AVERAGE' = 4; 'FAR ABOVE AVERAGE' = 5 "))#
+MADEG = as.numeric(recode(df[,ord[18]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+NATCHLD = as.numeric(recode(df[,ord[19]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATENRGY = as.numeric(recode(df[,ord[20]], "'Too little' = 1; 'About right'=2; 'Too much'= 3 "))#
+#
+NATMASS = as.numeric(recode(df[,ord[21]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATPARK =as.numeric( recode(df[,ord[22]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATROAD = as.numeric(recode(df[,ord[23]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATSCI = as.numeric(recode(df[,ord[24]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATSOC = as.numeric(recode(df[,ord[25]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+PADEG = as.numeric(recode(df[,ord[26]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+PARTNERS=as.numeric( recode(df[,ord[27]], "'NO PARTNERS' = 1; '1 PARTNER'=2; '2 PARTNERS'= 3; '3 PARTNERS' = 4; '4 PARTNERS' = 5; '5-10 PARTNERS'=6; '11-20 PARTNERS'=6; '21-100 PARTNERS' = 6; else = NA   "))#
+#
+PARTNERS5=as.numeric( recode(df[,ord[28]], "'NO PARTNERS' = 1; '1 PARTNER'=2; '2 PARTNERS'= 3; '3 PARTNERS' = 4; '4 PARTNERS' = 5; '5-10 PARTNERS'=6; '11-20 PARTNERS'=6; '21-100 PARTNERS' = 6; else = NA   "))#
+POLVIEWS = as.numeric(recode(df[,ord[29]], "'EXTREMELY LIBERAL' = 1; 'liberal'=2; 'SLIGHTLY LIBERAL'= 3; 'moderate' = 4; 'conservative' = 6; 'SLGHTLY CONSERVATIVE'=5; 'EXTRMLY CONSERVATIVE'=7 "))#
+#
+PRAY = as.numeric(recode(ORDNOMS3[,30], "'never' = 1; 'LT ONCE A WEEK'= 2; 'ONCE A WEEK'=3; 'SEVERAL TIMES A WEEK'= 4; 'ONCE A DAY' = 5; 'SEVERAL TIMES A DAY' = 6"))#
+#
+PRETEEN = df[,ord[31]]#
+#
+RANK = df[,ord[32]]#
+#
+RELACTIV = as.numeric(recode(df[,ord[33]], "'never' = 1; 'LESS THAN ONCE A YEAR'= 2; 'ABOUT ONCE OR TWICE A YEAR'=3; 'SEVERAL TIMES A YEAR'= 4; 'ABOUT ONCE A MONTH' = 5; '2-3 TIMES A MONTH' = 6; 'NEARLY EVERY WEEK'=7; 'EVERY WEEK'= 8 ; 'SEVERAL TIMES A WEEK'= 9; 'ONCE A DAY' =9"))#
+#
+RELITEN = as.numeric(df[,ord[34]])#
+#
+RELPERSN = as.numeric(recode(df[,ord[35]], "'NOT RELIGIOUS' = 1; 'MODRTE RELIGIOUS'=3; 'SLIGHT RELIGIOUS'= 2; 'VERY RELIGIOUS' = 4 "))#
+#
+SATFIN = as.numeric(recode(df[,ord[36]], "'NOT AT ALL SAT' = 1; 'MORE OR LESS'=2; 'satisfied'= 3 "))#
+#
+SATJOB = as.numeric(recode(df[,ord[37]], "'VERY DISSATISFIED' = 1; 'A LITTLE DISSAT'=2; 'MOD. SATISFIED'= 3; 'VERY SATISFIED' = 4"))#
+#
+SEXFREQ = as.numeric(recode(df[,ord[38]], "'NOT AT ALL' = 1; 'ONCE OR TWICE'=2; 'ONCE A MONTH'= 3; '2-3 TIMES A MONTH' = 4; 'weekly' = 5; '2-3 PER WEEK'=6; '4+ PER WEEK'=7 "))#
+SPRTPRSN = as.numeric(recode(df[,ord[39]], "'NOT SPIRITUAL' = 1; 'MODEATE SPIRTUAL'=3; 'SLIGHT SPIRITUAL'= 2; 'VERY SPIRITUAL' = 4 "))#
+TEENS = df[,ord[40]]#
+#
+VETYEARS = as.numeric(recode(df[,ord[41]], "'none' = 1; 'LESS THAN 2 YRS'=2; '2 TO 4  YEARS'= 3; 'MORE THAN 4 YRS' = 4; else = NA"))
+names(df)[ord]
+# recode ordinal variables#
+#
+# list of factor variables#
+ord = c(1, 6, 7, 12, 13, 14, 15, 16, 21, 23, 26, 36,  37, 39, 42, 43, 48, 52, 58, 59, 60, 61, 62, 63, 64, 70, 72, 73,  78, 80, 81, 84, 88, 91, 92, 96, 97, 99, 103, 105, 106)#
+noms = fac[!is.element(fac, ord)]#
+VARNOMS = df[, noms]#
+#
+VARORDS = numeric()#
+#VARNAME= recode(ORDNOMS3[,], "'' = 1; ''=2; ''= 3; '' = 4; '' = 5; ''=6 ")#
+#
+library("car")#
+#
+ADULTS = df[,ord[1]]#
+#
+ATTEND = as.numeric(recode(df[,ord[2]], "'never' = 1; 'LT ONCE A YEAR'= 2; 'ONCE A YEAR'=3; 'SEVRL TIMES A YR'= 4; 'ONCE A MONTH' = 5; '2-3X A MONTH' = 6; 'NRLY EVERY WEEK'=7; 'EVERY WEEK'= 8 ; 'MORE THN ONCE WK'= 9"))#
+BABIES = df[, ord[3]]#
+#
+CHILDS = df[, ord[4]]#
+#
+CLASS = as.numeric(recode(df[,ord[5]], "'LOWER CLASS' = 1; 'WORKING CLASS'=2; 'MIDDLE CLASS'= 3; 'UPPER CLASS' = 4 "))#
+CLOSEBLK = df[, ord[6]]#
+#
+CLOSEWHT = df[,ord[7]]#
+#
+COMPREND = as.numeric(recode(df[,ord[8]], "'poor' = 1; 'fair'=2; 'good'= 3"))#
+#
+COURTS = as.numeric(recode(df[,ord[9]], "'NOT HARSH ENOUGH' = 1; 'ABOUT RIGHT'=2; 'TOO HARSH'= 3"))#
+#
+DEGREE = as.numeric(recode(df[,ord[10]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+EARNRS = df[,ord[11]]#
+#
+FINALTER = as.numeric(recode(df[,ord[12]], "'worse' = 1; 'STAYED SAME'=2; 'better'= 3 "))#
+#
+FINRELA = as.numeric(recode(df[,ord[13]], "'FAR BELOW AVERAGE' = 1; 'BELOW AVERAGE'=2; 'average'= 3; 'ABOVE AVERAGE' = 4; 'FAR ABOVE AVERAGE' = 5 "))#
+#
+FUND = as.numeric(recode(df[,ord[14]], "'fundamentalist' = 3; 'moderate'=2; 'liberal'= 1"))#
+#
+HAPPY = as.numeric(recode(df[,ord[15]], "'NOT TOO HAPPY' = 1; 'PRETTY HAPPY'=2; 'VERY HAPPY'= 3 "))#
+#
+HEALTH = as.numeric(recode(df[,ord[16]], "'poor' = 1; 'fair'=2; 'good'= 3; 'excellent' = 4 "))#
+#
+INCOM16 = as.numeric(recode(df[,ord[17]], "'FAR BELOW AVERAGE' = 1; 'BELOW AVERAGE'=2; 'average'= 3; 'ABOVE AVERAGE' = 4; 'FAR ABOVE AVERAGE' = 5 "))#
+MADEG = as.numeric(recode(df[,ord[18]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+NATCHLD = as.numeric(recode(df[,ord[19]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATENRGY = as.numeric(recode(df[,ord[20]], "'Too little' = 1; 'About right'=2; 'Too much'= 3 "))#
+#
+NATMASS = as.numeric(recode(df[,ord[21]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATPARK =as.numeric( recode(df[,ord[22]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATROAD = as.numeric(recode(df[,ord[23]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATSCI = as.numeric(recode(df[,ord[24]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+NATSOC = as.numeric(recode(df[,ord[25]], "'TOO LITTLE' = 1; 'ABOUT RIGHT'=2; 'TOO MUCH'= 3 "))#
+#
+PADEG = as.numeric(recode(df[,ord[26]], "'LT HIGH SCHOOL' = 1; 'HIGH SCHOOL'=2; 'JUNIOR COLLEGE'= 3; 'bachelor' = 4; 'graduate' = 5 "))#
+#
+PARTNERS=as.numeric( recode(df[,ord[27]], "'NO PARTNERS' = 1; '1 PARTNER'=2; '2 PARTNERS'= 3; '3 PARTNERS' = 4; '4 PARTNERS' = 5; '5-10 PARTNERS'=6; '11-20 PARTNERS'=6; '21-100 PARTNERS' = 6; else = NA   "))#
+#
+PARTNERS5=as.numeric( recode(df[,ord[28]], "'NO PARTNERS' = 1; '1 PARTNER'=2; '2 PARTNERS'= 3; '3 PARTNERS' = 4; '4 PARTNERS' = 5; '5-10 PARTNERS'=6; '11-20 PARTNERS'=6; '21-100 PARTNERS' = 6; else = NA   "))#
+POLVIEWS = as.numeric(recode(df[,ord[29]], "'EXTREMELY LIBERAL' = 1; 'liberal'=2; 'SLIGHTLY LIBERAL'= 3; 'moderate' = 4; 'conservative' = 6; 'SLGHTLY CONSERVATIVE'=5; 'EXTRMLY CONSERVATIVE'=7 "))#
+#
+PRAY = as.numeric(recode(df[,ord[30]], "'never' = 1; 'LT ONCE A WEEK'= 2; 'ONCE A WEEK'=3; 'SEVERAL TIMES A WEEK'= 4; 'ONCE A DAY' = 5; 'SEVERAL TIMES A DAY' = 6"))#
+#
+PRETEEN = df[,ord[31]]#
+#
+RANK = df[,ord[32]]#
+#
+RELACTIV = as.numeric(recode(df[,ord[33]], "'never' = 1; 'LESS THAN ONCE A YEAR'= 2; 'ABOUT ONCE OR TWICE A YEAR'=3; 'SEVERAL TIMES A YEAR'= 4; 'ABOUT ONCE A MONTH' = 5; '2-3 TIMES A MONTH' = 6; 'NEARLY EVERY WEEK'=7; 'EVERY WEEK'= 8 ; 'SEVERAL TIMES A WEEK'= 9; 'ONCE A DAY' =9"))#
+#
+RELITEN = as.numeric(df[,ord[34]])#
+#
+RELPERSN = as.numeric(recode(df[,ord[35]], "'NOT RELIGIOUS' = 1; 'MODRTE RELIGIOUS'=3; 'SLIGHT RELIGIOUS'= 2; 'VERY RELIGIOUS' = 4 "))#
+#
+SATFIN = as.numeric(recode(df[,ord[36]], "'NOT AT ALL SAT' = 1; 'MORE OR LESS'=2; 'satisfied'= 3 "))#
+#
+SATJOB = as.numeric(recode(df[,ord[37]], "'VERY DISSATISFIED' = 1; 'A LITTLE DISSAT'=2; 'MOD. SATISFIED'= 3; 'VERY SATISFIED' = 4"))#
+#
+SEXFREQ = as.numeric(recode(df[,ord[38]], "'NOT AT ALL' = 1; 'ONCE OR TWICE'=2; 'ONCE A MONTH'= 3; '2-3 TIMES A MONTH' = 4; 'weekly' = 5; '2-3 PER WEEK'=6; '4+ PER WEEK'=7 "))#
+SPRTPRSN = as.numeric(recode(df[,ord[39]], "'NOT SPIRITUAL' = 1; 'MODEATE SPIRTUAL'=3; 'SLIGHT SPIRITUAL'= 2; 'VERY SPIRITUAL' = 4 "))#
+TEENS = df[,ord[40]]#
+#
+VETYEARS = as.numeric(recode(df[,ord[41]], "'none' = 1; 'LESS THAN 2 YRS'=2; '2 TO 4  YEARS'= 3; 'MORE THAN 4 YRS' = 4; else = NA"))
+cbind(names(df)[ord])
+VARORDS = cbind(ADULTS, ATTEND, BABIES, CLASS, CLOSEBLK, CLOSEWHT, COMPREND, COURTS, DEGREE, EARNRS, FINALTER, FINRELA, FUND, HAPPY, HEALTH, INCOM16, MADEG, NATCHLD, NATENRGY, NATMASS, NATPARK, NATROAD, NATSCI, NATSOC, PADEG, PARTNERS, PARTNERS5, POLVIEWS, PRAY, PRETEEN, RANK, RELACTIV, RELITEN, RELPERSN, SATFIN, SATJOB, SEXFREQ, SPRTPRSN, TEENS, VETYEARS)
+unique(ord, fac)
+fac
+length(fac)
+length(ord)
+unique(c(ord, fac))
+df = df[, -unique(c(ord, fac)) ]
+names(df)
+df = cbind(df, VARORDS, VARNOMS)
+names(df)
+var.rem = which(names(df) == "intethn"| names(df) == "inthisp" | names(df) == "intsex"| names(df) == "form"| names(df) == "hefinfo" | names(df) == "phase"| names(df) == "respnum"    )
+df = df[, - var.rem]
+dim(df)
+which(names(df) == "nummen")
+which(names(df) == "numwomen")
+which(names(df) == "old2")
+df[,which(names(df) == "nummen")][df[,which(names(df) == "nummen")]>900] = NA#
+df[,which(names(df) == "numwomen")][df[,which(names(df) == "numwomen")]>900] = NA#
+df[,which(names(df) == "old2")][df[,which(names(df) == "old2")]>900] = NA
+df[,which(names(df) == "old2")][df[,which(names(df) == "old2")]>300] = NA
+fac = which(sapply(df,class) == "factor")#
+fac
+names(df)
+# saving data#
+write.csv(nom, file = "GSScategoricals.csv")#
+write.csv(df, file = "GSScleaned.csv")
+noms = which(sapply(df,class) == "factor")#
+# saving data#
+write.csv(noms, file = "GSScategoricals.csv")#
+write.csv(df, file = "GSScleaned.csv")
+ord
+cbind(names(df))
+ords = seq(10:49)
+ord
+ords
+write.csv(ords, file = "GSSordinals.csv")
+xdf = c(1:(dim(df)[1]*dim(df)[2]))#
+sdf10 = sample(xdf, round(0.1*length(xdf)))#
+sdf20 = sample(xdf, round(0.2*length(xdf)))#
+sdf30 = sample(xdf, round(0.3*length(xdf)))#
+sdf40 = sample(xdf, round(0.4*length(xdf)))#
+sdf50 = sample(xdf, round(0.5*length(xdf)))#
+sdf60 = sample(xdf, round(0.6*length(xdf)))#
+sdf70 = sample(xdf, round(0.7*length(xdf)))#
+sdf80 = sample(xdf, round(0.8*length(xdf)))#
+sdf90 = sample(xdf, round(0.9*length(xdf)))#
+#
+ndf = nrow(df)#
+df10 = df#
+df20 = df#
+df30 = df#
+df40 = df#
+df50 = df#
+df60 = df#
+df70 = df#
+df80 = df #
+df90 = df #
+#
+for ( i in 1:length(sdf10)){#
+	ind = sdf10[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df10[r,c] = NA}	#
+#
+for ( i in 1:length(sdf20)){#
+	ind = sdf20[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df20[r,c] = NA}	#
+for ( i in 1:length(sdf30)){#
+	ind = sdf30[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df30[r,c] = NA}	#
+for ( i in 1:length(sdf40)){#
+	ind = sdf40[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df40[r,c] = NA}#
+for ( i in 1:length(sdf50)){#
+	ind = sdf50[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df50[r,c] = NA}#
+for ( i in 1:length(sdf60)){#
+	ind = sdf60[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df60[r,c] = NA}#
+for ( i in 1:length(sdf70)){#
+	ind = sdf70[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df70[r,c] = NA}#
+for ( i in 1:length(sdf80)){#
+	ind = sdf80[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df80[r,c] = NA}#
+for ( i in 1:length(sdf90)){#
+	ind = sdf90[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df90[r,c] = NA}#
+sum(is.na(df10))/length(xdf)#
+sum(is.na(df20))/length(xdf)#
+sum(is.na(df30))/length(xdf)#
+sum(is.na(df40))/length(xdf)#
+sum(is.na(df50))/length(xdf)#
+sum(is.na(df60))/length(xdf)#
+sum(is.na(df70))/length(xdf)#
+sum(is.na(df80))/length(xdf)#
+sum(is.na(df90))/length(xdf)#
+write.csv(df10, "GSS10.csv")#
+write.csv(df20, "GSS20.csv")#
+write.csv(df30, "GSS30.csv")#
+write.csv(df40, "GSS40.csv")#
+write.csv(df50, "GSS50.csv")#
+write.csv(df60, "GSS60.csv")#
+write.csv(df70, "GSS70.csv")#
+write.csv(df80, "GSS80.csv")#
+write.csv(df90, "GSS90.csv")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY")#
+#
+rm(list = ls())#
+#
+library("polycor")#
+#
+nlsy.cat = read.csv("nlsy2011cat.csv")[, -1]#
+#
+nlsy.int = read.csv("nlsy2011int.csv")[, -1]#
+#
+idlist = c(1, 37, 41, 42, 45)
+novarlist = which(apply(nlsy.int, 2, var, na.rm = TRUE) == 0)#
+#
+catlist = c(2, 4, 6, 7, 8, 14, 15, 16, 18, 19, 33, 36, 40, 44,  46, 47, 48, 49, 50, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 87, 86, 88, 89, 90, 91,92, 93, 94, 95, 100, 101, 102, 103) # removed one column that was common with novarlist -- 38#
+#
+remlist = c(idlist, novarlist, catlist)#
+#
+nlsy.cat = nlsy.cat[, catlist]#
+#
+nlsy.int = nlsy.int[, -unique(remlist)]#
+#
+nlsy.full = cbind(nlsy.int, nlsy.cat )#
+#
+check = nlsy.full
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.33*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]
+dim(check)
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]
+dim(check)
+df = check#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}
+dim(df)
+names(df)
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY")#
+#
+rm(list = ls())#
+#
+library("polycor")#
+#
+nlsy.cat = read.csv("nlsy2011cat.csv")[, -1]#
+#
+nlsy.int = read.csv("nlsy2011int.csv")[, -1]#
+#
+idlist = c(1, 37, 41, 42, 45)#
+#
+novarlist = which(apply(nlsy.int, 2, var, na.rm = TRUE) == 0)#
+#
+catlist = c(2, 4, 6, 7, 8, 14, 15, 16, 18, 19, 33, 36, 40, 44,  46, 47, 48, 49, 50, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 87, 86, 88, 89, 90, 91,92, 93, 94, 95, 100, 101, 102, 103) # removed one column that was common with novarlist -- 38#
+#
+remlist = c(idlist, novarlist, catlist)#
+#
+nlsy.cat = nlsy.cat[, catlist]#
+#
+nlsy.int = nlsy.int[, -unique(remlist)]#
+#
+nlsy.full = cbind(nlsy.int, nlsy.cat )#
+#
+check = nlsy.full#
+#
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.50*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]#
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]#
+#
+df = check#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}
+dim(df)
+head(df)
+df[,45][df[,45] == TRUE] = "YES"#
+ df[,45][df[,45] == FALSE] = "NO"#
+ df[,46][df[,46] == TRUE] = "YES"#
+ df[,46][df[,46] == FALSE] = "NO"#
+ df[,47][df[,47] == TRUE] = "YES"#
+ df[,47][df[,47] == FALSE] = "NO"#
+ df[,48][df[,48] == TRUE] = "YES"#
+ df[,48][df[,48] == FALSE] = "NO"#
+#
+fac = which(sapply(df,class) == "factor")
+head(df)
+setwd("/Users/Nandana/Dropbox/0_Research/Uchicago CI/1_Missing Values/NLSY/Generating Data")#
+#
+rm(list = ls())#
+#
+library("polycor")#
+#
+nlsy.cat = read.csv("nlsy2011cat.csv")[, -1]#
+#
+nlsy.int = read.csv("nlsy2011int.csv")[, -1]#
+#
+idlist = c(1, 37, 41, 42, 45)#
+#
+novarlist = which(apply(nlsy.int, 2, var, na.rm = TRUE) == 0)#
+#
+catlist = c(2, 4, 6, 7, 8, 14, 15, 16, 18, 19, 33, 36, 40, 44,  46, 47, 48, 49, 50, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 87, 86, 88, 89, 90, 91,92, 93, 94, 95, 100, 101, 102, 103) # removed one column that was common with novarlist -- 38#
+#
+remlist = c(idlist, novarlist, catlist)#
+#
+nlsy.cat = nlsy.cat[, catlist]#
+#
+nlsy.int = nlsy.int[, -unique(remlist)]#
+#
+nlsy.full = cbind(nlsy.int, nlsy.cat )#
+# remove individuals who didnt reply to > 75% questions#
+#
+ nlsy.full = nlsy.full[-which(apply(1*(is.na(nlsy.full)), 1, sum) > (0.75*dim(nlsy.full)[2])), ]#
+#
+# remove columns with >75% missing values#
+#
+nlsy.full = nlsy.full[, - which(apply(1*(is.na(nlsy.full)), 2, sum)/nrow(nlsy.full) >0.75)]#
+df = nlsy.full#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+	    if(a$correlations[1,2]>0.75){corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}#
+#
+nlsy1 = df
+cbind(names(df))
+table(df[,45])
+table(df[,46])
+table(df[,47])
+table(df[,48])
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY")#
+#
+rm(list = ls())#
+#
+library("polycor")#
+#
+nlsy.cat = read.csv("nlsy2011cat.csv")[, -1]#
+#
+nlsy.int = read.csv("nlsy2011int.csv")[, -1]#
+#
+idlist = c(1, 37, 41, 42, 45)#
+#
+novarlist = which(apply(nlsy.int, 2, var, na.rm = TRUE) == 0)#
+#
+catlist = c(2, 4, 6, 7, 8, 14, 15, 16, 18, 19, 33, 36, 40, 44,  46, 47, 48, 49, 50, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 87, 86, 88, 89, 90, 91,92, 93, 94, 95, 100, 101, 102, 103) # removed one column that was common with novarlist -- 38#
+#
+remlist = c(idlist, novarlist, catlist)#
+#
+nlsy.cat = nlsy.cat[, catlist]#
+#
+nlsy.int = nlsy.int[, -unique(remlist)]#
+#
+nlsy.full = cbind(nlsy.int, nlsy.cat )#
+#
+check = nlsy.full#
+#
+col.remove = numeric()#
+for (i in 1:dim(check)[2]){#
+	column.check = sum(is.na(check[,i]))#
+	if (column.check>0.50*dim(check)[1]){col.remove = c(col.remove, i)}}#
+#
+l = length(col.remove)#
+#
+check = check[, -col.remove]#
+# nominal variables (factors)#
+fac = which(sapply(check,class) == "factor")#
+### checking factors with more than 10 levels#
+n.fac = numeric()#
+fac.remove = numeric()#
+for (k in 1: length(fac) ){#
+	n.fac = c( n.fac, nlevels(check[, fac[k]]))#
+	if (n.fac[k] > 10) {fac.remove = c(fac.remove, fac[k])}} #
+#
+l = l+ length(fac.remove)#
+#
+check = check[, -fac.remove]#
+#
+df = check#
+#
+maxcol= dim(df)[2]#
+j = 1#
+#
+while (j < maxcol){#
+	corvec = numeric()#
+	for (k in (j+1): dim(df)[2]){#
+		print(c(j, k, dim(df)[2]))	#
+	   try({  #
+	   	a= hetcor(df[,j] , df[,k], std.err = FALSE )#
+#	    if(a$correlations[1,2]>0.75)#
+	    if(abs(a$correlations[1,2])>0.75)#
+	    {corvec = c(corvec, k)}}#
+	    )}#
+	   if(length(corvec)>0)  {df = df[, - corvec]}#
+	maxcol = dim(df)[2]#
+	j = j+1}#
+ df[,which(names(df) == "YSAQ.282A2_2011")][df[,which(names(df) == "YSAQ.282A2_2011")] == TRUE] = "YES"#
+ df[,which(names(df) == "YSAQ.282A2_2011")][df[,which(names(df) == "YSAQ.282A2_2011")] == FALSE] = "NO"#
+ df[,which(names(df) == "YSAQ.282A3_2011")][df[,which(names(df) == "YSAQ.282A3_2011")] == TRUE] = "YES"#
+ df[,which(names(df) == "YSAQ.282A3_2011")][df[,which(names(df) == "YSAQ.282A3_2011")] == FALSE] = "NO"#
+ df[,which(names(df) == "YSAQ.282A4_2011")][df[,which(names(df) == "YSAQ.282A4_2011")] == TRUE] = "YES"#
+ df[,which(names(df) == "YSAQ.282A4_2011")][df[,which(names(df) == "YSAQ.282A4_2011")] == FALSE] = "NO"#
+ df[,which(names(df) == "YSAQ.282A5_2011")][df[,which(names(df) == "YSAQ.282A5_2011")] == TRUE] = "YES"#
+ df[,which(names(df) == "YSAQ.282A5_2011")][df[,which(names(df) == "YSAQ.282A5_2011")] == FALSE] = "NO"#
+#
+fac = which(sapply(df,class) == "factor")
+names(df)
+head(df)
+fac
+i = 0
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+i = i+1
+table(df[,i])
+i = i+1
+table(df[,i])
+i
+head(df)
+ords = c(1#
+4#
+5#
+7#
+9#
+10#
+11#
+12#
+13#
+14#
+15#
+16#
+17#
+18#
+19#
+20#
+21#
+23#
+24#
+)
+ords = c(1, 4, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24)
+noms = which(sapply(df,class) == "factor")#
+ords = c(1, 4, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24)#
+write.csv(ords, file = "NLSYordinals.csv")#
+write.csv(noms, file = "NLSYcategoricals.csv")#
+write.csv(df, file = "NLSYcleaned.csv")
+######## SPARSITY#
+# make sparse versions 20%, 30%, ... , 90% and save #
+#
+xdf = c(1:(dim(df)[1]*dim(df)[2]))#
+sdf20 = sample(xdf, round(0.1*length(xdf)))#
+sdf20 = sample(xdf, round(0.2*length(xdf)))#
+sdf30 = sample(xdf, round(0.3*length(xdf)))#
+sdf40 = sample(xdf, round(0.4*length(xdf)))#
+sdf50 = sample(xdf, round(0.5*length(xdf)))#
+sdf60 = sample(xdf, round(0.6*length(xdf)))#
+sdf70 = sample(xdf, round(0.7*length(xdf)))#
+sdf80 = sample(xdf, round(0.8*length(xdf)))#
+sdf90 = sample(xdf, round(0.9*length(xdf)))#
+#
+ndf = nrow(df)#
+df10 = df#
+df20 = df#
+df30 = df#
+df40 = df#
+df50 = df#
+df60 = df#
+df70 = df#
+df80 = df #
+df90 = df #
+for ( i in 1:length(sdf10)){#
+	ind = sdf10[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df10[r,c] = NA}	#
+for ( i in 1:length(sdf20)){#
+	ind = sdf20[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df20[r,c] = NA}	#
+for ( i in 1:length(sdf50)){#
+	ind = sdf50[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df50[r,c] = NA}#
+#
+for ( i in 1:length(sdf70)){#
+	ind = sdf70[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df70[r,c] = NA}#
+for ( i in 1:length(sdf90)){#
+	ind = sdf90[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df90[r,c] = NA}#
+for ( i in 1:length(sdf30)){#
+	ind = sdf30[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df30[r,c] = NA}	#
+for ( i in 1:length(sdf40)){#
+	ind = sdf40[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df40[r,c] = NA}#
+#
+for ( i in 1:length(sdf60)){#
+	ind = sdf60[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df60[r,c] = NA}#
+for ( i in 1:length(sdf80)){#
+	ind = sdf80[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	df80[r,c] = NA}#
+#
+sum(is.na(df10))/length(xdf)#
+sum(is.na(df20))/length(xdf)#
+sum(is.na(df30))/length(xdf)#
+sum(is.na(df40))/length(xdf)#
+sum(is.na(df50))/length(xdf)#
+sum(is.na(df60))/length(xdf)#
+sum(is.na(df70))/length(xdf)#
+sum(is.na(df80))/length(xdf)#
+sum(is.na(df90))/length(xdf)#
+write.csv(df20, "NLSY10.csv")#
+write.csv(df20, "NLSY20.csv")#
+write.csv(df30, "NLSY30.csv")#
+write.csv(df40, "NLSY40.csv")#
+write.csv(df50, "NLSY50.csv")#
+write.csv(df60, "NLSY60.csv")#
+write.csv(df70, "NLSY70.csv")#
+write.csv(df80, "NLSY80.csv")#
+write.csv(df90, "NLSY90.csv")

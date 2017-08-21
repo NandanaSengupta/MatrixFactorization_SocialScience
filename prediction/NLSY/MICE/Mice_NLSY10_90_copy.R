@@ -1,0 +1,236 @@
+# MICE
+
+rm(list = ls())
+
+library("mice")
+
+
+#### NLSY10 
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+df = read.csv("NLSY10.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY10_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY20 
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY20.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20,  file = "MICE_NLSY20_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY30 
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY30.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20,  file = "MICE_NLSY30_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY40 
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY40.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20,  file = "MICE_NLSY40_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY50 
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY50.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY50_copy.RData" )
+
+rm(list = ls())
+
+
+
+#### NLSY60 
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY60.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY60_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY70 
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+df = read.csv("NLSY70.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY70_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY80 
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")
+
+
+df = read.csv("NLSY80.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY80_copy.RData" )
+
+rm(list = ls())
+
+
+#### NLSY90
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data") 
+
+df = read.csv("NLSY90.csv")[, -1]
+
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/MICE")
+
+imp  = mice(df, m = 10, pred = quickpred(df), maxit = 20)
+
+W11 =  complete(imp, action = 1)
+W12 = complete(imp, action = 2)
+W13 = complete(imp, action = 3)
+W14 = complete(imp, action = 4)
+W15 = complete(imp, action = 5)
+W16 = complete(imp, action = 6)
+W17 = complete(imp, action = 7)
+W18 = complete(imp, action = 8)
+W19 = complete(imp, action = 9)
+W20 = complete(imp, action = 10)
+
+save(W11, W12, W13, W14, W15, W16, W17, W18, W19, W20, file = "MICE_NLSY90_copy.RData" )
+
+rm(list = ls())

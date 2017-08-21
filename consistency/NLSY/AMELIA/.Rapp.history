@@ -1,0 +1,2280 @@
+pick.miss
+i = 49
+pick.miss
+pick.miss <-( c( missvals[i,]) )
+pick.miss
+!pick.miss
+sig[!pick.miss,!pick.miss]
+sig <- as.matrix(var(na.exclude(x)))
+sig[!pick.miss,!pick.miss]
+inv.S <- solve(sig[!pick.miss,!pick.miss]) # we need the inverse of the covariance
+mean.vec[pick.miss]
+mean.vec <- as.matrix(apply(na.exclude(x),2,mean))
+mean.vec[pick.miss]
+sig[pick.miss,!pick.miss]
+new.impute<-x
+new.impute[i,!pick.miss]
+t(mean.vec[!pick.miss]))
+t(mean.vec[!pick.miss])
+check = c("a", "b", "c")
+check
+check2 = c( 'b', 'c')
+check2
+check2 = c( '"b"', '"c"')
+check2
+rm(list = ls())#
+setwd("/Users/Nandana/Google Drive/Data_eLHS3/Final/Logistic")#
+#
+source("DR_estimates.R")#
+#library("#textreg")#
+library("xtable")#
+#
+rowlab = c("ATE", "0.95 C.I.", "Model", "% change")#
+######### Northeast#
+#
+load("ne_e.RData")#
+load("X_ne_e.RData")#
+#
+###  Data#
+#
+w_ne = data_ne$W.e#
+y_ne = data_ne$Y.e#
+X_ne = X_ne[, -which(colnames(X_ne)=="prev_abort_ind")]#
+data_ne = cbind(y_ne, w_ne, X_ne)#
+colnames(data_ne)[1] = "y"#
+colnames(data_ne)[2] = "w"
+check = c(0, 0.025, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5,  0.75, 1, 2.5,  5, 7.5, 10)
+check
+plot(check)
+plot(log(check))
+plot(ln(check))
+check = c(0, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5,  0.75, 1, 2.5,  5, 7.5, 10)
+plot(check)
+plot(log(check))
+runif(10, 0, 1)
+runif(10, c(0,1), c(0,1))
+runif(10, c(0,1))
+runif(10, c(0,0), c(1,1))
+mpg
+mtcars
+mtcars[,2]
+mtcars[,1]
+mpg = mtcars[,1]
+cyl = mtcars[,2]
+cyl
+boxplot(mpg~cyl)
+####################### overall losses ####################################
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Data")#
+#
+df.base = read.csv("NLSYcleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("NLSYcategoricals.csv")[, -1]#
+ord1 = read.csv("NLSYordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+df.cv = read.csv("NLSY10.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s10 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY20.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s20 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY30.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s30 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY40.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s40 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY50.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s50 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY60.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s60 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY70.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s70 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("NLSY80.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s80 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+df.cv = read.csv("NLSY90.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s90 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/NLSY/Comparisons")#
+#
+load('all_NLSY10.RData')#
+load('all_NLSY20.RData')#
+load('all_NLSY30.RData')#
+load('all_NLSY40.RData')#
+load('all_NLSY50.RData')#
+load('all_NLSY60.RData')#
+load('all_NLSY70.RData')#
+load('all_NLSY80.RData')#
+load('all_NLSY90.RData')#
+l.aml90 = l.aml80#
+#
+TR = cbind(l.tr10/s10, l.tr20/s20, l.tr30/s30, l.tr40/s40, l.tr50/s50, l.tr60/s60, l.tr70/s70, l.tr80/s80, l.tr90/s90)#
+MC = cbind(l.mice10/s10, l.mice20/s20, l.mice30/s30, l.mice40/s40, l.mice50/s50, l.mice60/s60, l.mice70/s70, l.mice80/s80, l.mice90/s90)#
+AM = cbind(l.aml10/s10, l.aml20/s20, l.aml30/s30, l.aml40/s40, l.aml50/s50, l.aml60/s60, l.aml70/s70, l.aml80/s80, l.aml90/s90)
+TR
+boxplot(TR[1,]~ seq(10,90, by = 10) )
+mpg
+mtcars[,1]
+as.vector(TR)
+check = c(rep(10, 10), rep(20, 10), rep(30, 10), rep(40, 10), rep(50, 10), rep(60, 10) , rep(70, 10), rep(80, 10), rep(90, 10)  )
+check
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )
+check
+blah = as.vector(TR)
+boxplot(blah ~ check)
+boxplot(as.vector(AM) ~ check, col = "red")#
+boxplot(as.vector(MC) ~check, col = "green")#
+boxplot(as.vector(TR)~ check, col= "blue")
+boxplot(as.vector(AM) ~ check, col = "red")#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE))
+boxplot(as.vector(AM) ~ check, col = "red", xlim = c(10, 90), ylim = c(ymin, ymax ))#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+mat = rbind(TR, MC, AM)
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE))
+boxplot(as.vector(AM) ~ check, col = "red", xlim = c(10, 90), ylim = c(ymin, ymax ))
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ))
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = x(0, 90))
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0, 90))
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0, 10))
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0, 10))#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5))#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss")#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, add = TRUE)#
+lines(seq(1,9), avg.mice,  type = "b", col = rgb(0,1,0), pch = 19, add = TRUE)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, add = TRUE)
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:60 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss")#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, add = TRUE)#
+lines(seq(1,9), avg.mice,  type = "b", col = rgb(0,1,0), pch = 19, add = TRUE)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, add = TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss")#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19)
+install.packages("lattice")
+library("lattice")
+bwplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss")
+bwplot(as.vector(AM) ~ check, col = "red")
+bwplot(as.vector(AM) ~ check)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss")#
+boxplot(as.vector(MC) ~check, col = "green", add= TRUE)#
+boxplot(as.vector(TR)~ check, col= "blue", add = TRUE)
+boxplot(as.vector(AM) ~ check, col = "red", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxfill = FALSE)
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 0, medcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 0, medcol = "red", whiskcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 0, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 1, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 1, boxcol = "red", medlwd = 1, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 1, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlty = 2, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 2, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red", staplecol = "red")
+boxplot(as.vector(MC) ~check,  add= TRUE,  boxlwd = 1, boxcol = "green", medlwd = 2, medcol = "green", whiskcol = "green", outcol = "green", staplecol = "green")#
+boxplot(as.vector(TR)~ check, add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "blue", whiskcol = "blue", outcol = "blue", staplecol = "blue")
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 2 )
+lines(seq(1,9), avg.mice,  type = "b", col = rgb(0,1,0), pch = 19, lwd = 2)
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 2)
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red", staplecol = "red", bg = "red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "red", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")
+boxplot(as.vector(MC) ~check,  col = "green", add= TRUE,  boxlwd = 1, boxcol = "green", medlwd = 2, medcol = "black", whiskcol = "green", outcol = "green", staplecol = "green")
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 2 )#
+lines(seq(1,9), avg.mice,  type = "b", col = rgb(0,1,0), pch = 19, lwd = 2)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 2)
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5))#
+boxplot(as.vector(MC) ~check)#
+boxplot(as.vector(TR) ~check)
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5))#
+boxplot(as.vector(MC) ~check, add = TRUE)#
+boxplot(as.vector(TR) ~check, add = TRUE)
+pie(rep(1, 12), col = gray.colors(12))#
+barplot(1:12, col = gray.colors(12))
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = gray.colors(1), medlwd = 2, medcol = "black", whiskcol = gray.colors(1), outcol = gray.colors(1), staplecol = gray.colors(1), col =gray.colors(1))#
+boxplot(as.vector(MC) ~check,  col = gray.colors(7),  add= TRUE,  boxlwd = 1, boxcol = gray.colors(7), medlwd = 2, medcol = "black", whiskcol = gray.colors(7), outcol = gray.colors(7), staplecol = gray.colors(7))#
+boxplot(as.vector(TR)~ check, col = gray.colors(12), add = TRUE,  boxlwd = 1, boxcol = gray.colors(12), medlwd = 2, medcol = "black", whiskcol =gray.colors(12), outcol = gray.colors(12), staplecol = gray.colors(12))
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = gray.colors(1), medlwd = 2, medcol = "black", whiskcol = gray.colors(1), outcol = gray.colors(1), staplecol = gray.colors(1), col =gray.colors(1))
+boxplot(as.vector(MC) ~check,  col = gray.colors(7),  add= TRUE,  boxlwd = 1, boxcol = gray.colors(7), medlwd = 2, medcol = "black", whiskcol = gray.colors(7), outcol = gray.colors(7), staplecol = gray.colors(7))
+boxplot(as.vector(MC) ~check,  col = gray.colors(7),    boxlwd = 1, boxcol = gray.colors(7), medlwd = 2, medcol = "black", whiskcol = gray.colors(7), outcol = gray.colors(7), staplecol = gray.colors(7))
+gray.colors(7)
+pie(rep(1, 12), col = gray.colors(12))
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_nlsy.pdf")#
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+####################### overall losses ####################################
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s10 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS20.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s20 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS30.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s30 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS40.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s40 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS50.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s50 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS60.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s60 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS70.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s70 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS80.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s80 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+df.cv = read.csv("GSS90.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s90 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+load('all_GSS10.RData')#
+load('all_GSS20.RData')#
+load('all_GSS30.RData')#
+load('all_GSS40.RData')#
+load('all_GSS50.RData')#
+load('all_GSS60.RData')#
+load('all_GSS70.RData')#
+load('all_GSS80.RData')#
+load('all_GSS90.RData')#
+#
+TR = cbind(l.tr10/s10, l.tr20/s20, l.tr30/s30, l.tr40/s40, l.tr50/s50, l.tr60/s60, l.tr70/s70, l.tr80/s80, l.tr90/s90)#
+MC = cbind(l.mice10/s10, l.mice20/s20, l.mice30/s30, l.mice40/s40, l.mice50/s50, l.mice60/s60, l.mice70/s70, l.mice80/s80, l.mice90/s90)#
+AM = cbind(l.aml10/s10, l.aml20/s20, l.aml30/s30, l.aml40/s40, l.aml50/s50, l.aml60/s60, l.aml70/s70, l.aml80/s80, l.aml90/s90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:60 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, imp.aml, imp.mice), 2)
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss.pdf")#
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s10 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS20.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s20 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS30.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s30 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS40.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s40 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS50.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s50 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS60.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s60 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS70.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s70 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS80.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s80 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+df.cv = read.csv("GSS90.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s90 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+load('all_GSS10.RData')#
+load('all_GSS20.RData')#
+load('all_GSS30.RData')#
+load('all_GSS40.RData')#
+load('all_GSS50.RData')#
+load('all_GSS60.RData')#
+load('all_GSS70.RData')#
+load('all_GSS80.RData')#
+load('all_GSS90.RData')#
+#
+TR = cbind(l.tr10/s10, l.tr20/s20, l.tr30/s30, l.tr40/s40, l.tr50/s50, l.tr60/s60, l.tr70/s70, l.tr80/s80, l.tr90/s90)#
+MC = cbind(l.mice10/s10, l.mice20/s20, l.mice30/s30, l.mice40/s40, l.mice50/s50, l.mice60/s60, l.mice70/s70, l.mice80/s80, l.mice90/s90)#
+AM = cbind(l.aml10/s10, l.aml20/s20, l.aml30/s30, l.aml40/s40, l.aml50/s50, l.aml60/s60, l.aml70/s70, l.aml80/s80, l.aml90/s90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:60 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+pdf("sparsity_boxplots_gss.pdf")#
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+####################### overall losses ####################################
+#
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+df.cv = read.csv("GSS10.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s10 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS20.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s20 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS30.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s30 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS40.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s40 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS50.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s50 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS60.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s60 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS70.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s70 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+df.cv = read.csv("GSS80.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s80 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+df.cv = read.csv("GSS90.csv")[,-1] #df with CV indices removed#
+a= which(is.na(df.base))#
+b= which(is.na(df.cv))#
+s90 = length(b[!is.element(b,a)]) # elements on which to do cv#
+rm(df.cv, a, b)#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Code for replication/GSS/Comparisons")#
+#
+load('all_GSS10.RData')#
+load('all_GSS20.RData')#
+load('all_GSS30.RData')#
+load('all_GSS40.RData')#
+load('all_GSS50.RData')#
+load('all_GSS60.RData')#
+load('all_GSS70.RData')#
+load('all_GSS80.RData')#
+load('all_GSS90.RData')#
+#
+TR = cbind(l.tr10/s10, l.tr20/s20, l.tr30/s30, l.tr40/s40, l.tr50/s50, l.tr60/s60, l.tr70/s70, l.tr80/s80, l.tr90/s90)#
+MC = cbind(l.mice10/s10, l.mice20/s20, l.mice30/s30, l.mice40/s40, l.mice50/s50, l.mice60/s60, l.mice70/s70, l.mice80/s80, l.mice90/s90)#
+AM = cbind(l.aml10/s10, l.aml20/s20, l.aml30/s30, l.aml40/s40, l.aml50/s50, l.aml60/s60, l.aml70/s70, l.aml80/s80, l.aml90/s90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+mat
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10/s10, l.tr20/s20, l.tr30/s30, l.tr40/s40, l.tr50/s50, l.tr60/s60, l.tr70/s70, l.tr80/s80, l.tr90/s90)#
+MC = cbind(l.mice10/s10, l.mice20/s20, l.mice30/s30, l.mice40/s40, l.mice50/s50, l.mice60/s60, l.mice70/s70, l.mice80/s80, l.mice90/s90)#
+AM = cbind(l.aml10/s10, l.aml20/s20, l.aml30/s30, l.aml40/s40, l.aml50/s50, l.aml60/s60, l.aml70/s70, l.aml80/s80, l.aml90/s90)#
+#
+mat = rbind(TR, MC, AM)
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, l.tr90)#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+mat
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, l.tr90)#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, l.tr90)#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(TR, MC, AM)
+TR
+l.tr90
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))
+TR
+l.mice10
+length(l.mice10)
+length(l.mice20)
+length(l.mice30)
+length(l.mice40)
+length(l.mice50)
+length(l.mice60)
+length(l.mice70)
+length(l.mice80)
+length(l.mice90)
+length(l.aml10)
+length(l.aml20)
+length(l.aml30)
+length(l.aml40)
+length(l.aml50)
+length(l.aml60)
+length(l.aml70)
+length(l.aml80)
+length(l.aml90)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")
+mat
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:58 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, imp.aml, imp.mice), 2)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "NLSY_summary.tex")
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE))
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia",
+dev.off()
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 18), rep(20, 18), rep(30, 18), rep(40, 18), rep(50, 18), rep(60, 18) , rep(70, 18), rep(80, 18), rep(90, 18)  )#
+#
+#pdf("sparsity_boxplots_nlsy.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_nlsy.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+plot(missing_prop, avg.aml, type = "b", col = rgb(1,0, 0), main = "Sparsity Analysis: NLSY Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", xlim = c(10, 90), ylim = c(ymin, ymax ), pch = 19, yaxt = "n")#
+lines(missing_prop, avg.mice,  type = "b", col = rgb(0,1,0), pch = 19)#
+lines(missing_prop, avg.tr, type = "b", col = rgb(0,0,1), pch = 19)#
+axis(1, at = seq(10, 90, by = 10))#
+axis(2, at = seq(10000, 200000, by = 50000))
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')
+length(l.tr10)
+length(l.tr20)
+length(l.tr30)
+length(l.tr40)
+length(l.tr50)
+length(l.tr60)
+length(l.tr70)
+length(l.tr80)
+length(l.tr90)
+length(l.mice10)
+length(l.mice20)
+length(l.mice30)
+length(l.mice40)
+length(l.mice50)
+length(l.mice60)
+length(l.mice70)
+length(l.mice80)
+length(l.mice90)
+length(l.aml10)
+length(l.aml20)
+length(l.aml30)
+length(l.aml40)
+length(l.aml50)
+length(l.aml60)
+length(l.aml70)
+length(l.aml80)
+length(l.aml90)
+rep(NA, 8)
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10)), c(l.aml20,, rep(NA, 19-length(l.aml20)), c(l.aml30, rep(NA, 19-length(l.aml30)), c(l.aml40, rep(NA, 19-length(l.aml40)), c(l.aml50, rep(NA, 19-length(l.aml50)), c(l.aml60, rep(NA, 19-length(l.aml60)),  c(l.aml70, rep(NA, 19-length(l.aml70)), c(l.aml80, rep(NA, 19-length(l.aml80)), c(l.aml90, rep(NA, 19-length(l.aml90)) )
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10)), c(l.aml20,, rep(NA, 19-length(l.aml20)), c(l.aml30, rep(NA, 19-length(l.aml30)), c(l.aml40, rep(NA, 19-length(l.aml40)), c(l.aml50, rep(NA, 19-length(l.aml50)), c(l.aml60, rep(NA, 19-length(l.aml60)),  c(l.aml70, rep(NA, 19-length(l.aml70)), c(l.aml80, rep(NA, 19-length(l.aml80)), c(l.aml90, rep(NA, 19-length(l.aml90)) )#
+#
+mat = rbind(TR, MC, AM)
+MC
+TR
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20,, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, MC, AM)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90))))
+mat = rbind(TR, MC, AM)
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+mat
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:59 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.am
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, imp.aml, imp.mice), 2)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/rank_consistency.RData")
+l.rk10
+l.rk90
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.tr = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )#
+#
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()#
+#pdf("sparsity_gss.pdf")#
+plot(missing_prop, avg.aml, type = "b", col = rgb(1,0, 0), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", xlim = c(10, 90), ylim = c(ymin, ymax ), pch = 19, yaxt = "n")#
+lines(missing_prop, avg.mice,  type = "b", col = rgb(0,1,0), pch = 19)#
+lines(missing_prop, avg.tr, type = "b", col = rgb(0,0,1), pch = 19)#
+axis(1, at = seq(10, 90, by = 10))#
+axis(2, at = seq(10000, 200000, by = 50000))#
+#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "green", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+#dev.off()
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )#
+#
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+#write.csv(mat, "NLSYsparsitycomp.csv")#
+#
+#mat = read.csv("NLSYsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.rk = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.tr = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:78 ,], 2 , mean, na.rm = TRUE)#
+imp.mice.tr = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml.tr = 100*(avg.aml- avg.tr)/avg.aml#
+imp.mice.rk = 100*((avg.mice- avg.rk)/avg.mice)#
+imp.aml.rk = 100*(avg.aml- avg.rk)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr,avg.rk, #
+ prop.na.rk, imp.aml.tr, imp.mice.tr, imp.aml.rk, imp.mice.rk), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "NLSY_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 18), rep(20, 18), rep(30, 18), rep(40, 18), rep(50, 18), rep(60, 18) , rep(70, 18), rep(80, 18), rep(90, 18)  )#
+#
+pdf("sparsity_boxplots_nlsy_with_rank.pdf")#
+#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: NLSY", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Data")#
+#
+df.base = read.csv("NLSYcleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("NLSYcategoricals.csv")[, -1]#
+ord1 = read.csv("NLSYordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")
+load('amelia_NLSY10_2.RData')
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )
+l.aml10 = c(l.aml10, LOSS.AML1$loss, LOSS.AML2$loss)
+l.aml10
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Data")#
+#
+df.base = read.csv("NLSYcleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("NLSYcategoricals.csv")[, -1]#
+ord1 = read.csv("NLSYordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+##### 10#
+load('amelia_NLSY10_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+load('amelia_NLSY10_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY10.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, AML1,  sdf1, LOSS.AML1)#
+#
+load('amelia_NLSY10 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, AML1,  sdf1, LOSS.AML1)#
+#
+load('amelia_NLSY10 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY10 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY10 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 20#
+load('amelia_NLSY20_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY20_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY20 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY20 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY20 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 30#
+load('amelia_NLSY30_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY30_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY30 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY30 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY30 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 40#
+load('amelia_NLSY40_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+load('amelia_NLSY40_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY40 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY40 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY40 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 50#
+load('amelia_NLSY50_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY50_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY50 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY50 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY50 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml50 = c(l.aml50, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 60#
+load('amelia_NLSY60_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY60_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY60 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY60 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY60 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml60 = c(l.aml60, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 70#
+load('amelia_NLSY70_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY70_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY70 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY70 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY70 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml70 = c(l.aml70, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+##### 80#
+load('amelia_NLSY80_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+#
+load('amelia_NLSY80_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY80 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY80 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY80 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml80 = c(l.aml80, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+##### 90#
+load('amelia_NLSY90_1.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+AML3= factorLevels(am3, df.base, cat1)#
+AML4= factorLevels(am4, df.base, cat1)#
+AML5= factorLevels(am5, df.base, cat1)#
+AML6= factorLevels(am6, df.base, cat1)#
+AML7= factorLevels(am7, df.base, cat1)#
+#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.AML3 = loss(AML3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.AML4 = loss(AML4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.AML5 = loss(AML5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.AML6 = loss(AML6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.AML7 = loss(AML7,df.base,sdf7,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss, LOSS.AML2$loss, LOSS.AML3$loss, LOSS.AML4$loss, LOSS.AML5$loss, LOSS.AML6$loss, LOSS.AML7$loss)#
+#
+rm(am1, am2, am3, am4, am5, am6, am7, #
+AML1, AML2, AML3, AML4, AML5, AML6, AML7,  #
+sdf1, sdf2, sdf3, sdf4, sdf5, sdf6, sdf7#
+, LOSS.AML1, LOSS.AML2, LOSS.AML3, LOSS.AML4, LOSS.AML5, LOSS.AML6, LOSS.AML7)#
+load('amelia_NLSY90_2.RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+AML2= factorLevels(am2, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.AML2 = loss(AML2,df.base,sdf2,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss, LOSS.AML2$loss)#
+rm(am1, am2, AML1, AML2, sdf1, sdf2, LOSS.AML1, LOSS.AML2)#
+load('amelia_NLSY90 (1).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (2).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (3).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (4).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (5).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (6).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (7).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (8).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (9).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+#
+load('amelia_NLSY90 (10).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)#
+load('amelia_NLSY90 (11).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml90 = c(l.aml90, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)
+l.aml90
+l.aml80
+l.aml70
+l.aml60
+l.aml50
+l.aml40
+l.aml30
+l.aml20
+l.aml10
+save(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90, file = "amelia_consistency.RData")

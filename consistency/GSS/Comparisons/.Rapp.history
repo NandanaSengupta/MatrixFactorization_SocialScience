@@ -1,0 +1,2892 @@
+length(l.aml80)
+length(l.aml90)
+rep(NA, 8)
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10)), c(l.aml20,, rep(NA, 19-length(l.aml20)), c(l.aml30, rep(NA, 19-length(l.aml30)), c(l.aml40, rep(NA, 19-length(l.aml40)), c(l.aml50, rep(NA, 19-length(l.aml50)), c(l.aml60, rep(NA, 19-length(l.aml60)),  c(l.aml70, rep(NA, 19-length(l.aml70)), c(l.aml80, rep(NA, 19-length(l.aml80)), c(l.aml90, rep(NA, 19-length(l.aml90)) )
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10)), c(l.aml20,, rep(NA, 19-length(l.aml20)), c(l.aml30, rep(NA, 19-length(l.aml30)), c(l.aml40, rep(NA, 19-length(l.aml40)), c(l.aml50, rep(NA, 19-length(l.aml50)), c(l.aml60, rep(NA, 19-length(l.aml60)),  c(l.aml70, rep(NA, 19-length(l.aml70)), c(l.aml80, rep(NA, 19-length(l.aml80)), c(l.aml90, rep(NA, 19-length(l.aml90)) )#
+#
+mat = rbind(TR, MC, AM)
+MC
+TR
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20,, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, MC, AM)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90))))
+mat = rbind(TR, MC, AM)
+mat = rbind(TR, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+mat
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[21:40 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[41:59 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.am
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, imp.aml, imp.mice), 2)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "darkgreen", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/rank_consistency.RData")
+l.rk10
+l.rk90
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.tr = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, avg.rk,#
+ prop.na.tr, imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )#
+#
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+dev.off()#
+#pdf("sparsity_gss.pdf")#
+plot(missing_prop, avg.aml, type = "b", col = rgb(1,0, 0), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", xlim = c(10, 90), ylim = c(ymin, ymax ), pch = 19, yaxt = "n")#
+lines(missing_prop, avg.mice,  type = "b", col = rgb(0,1,0), pch = 19)#
+lines(missing_prop, avg.tr, type = "b", col = rgb(0,0,1), pch = 19)#
+axis(1, at = seq(10, 90, by = 10))#
+axis(2, at = seq(10000, 200000, by = 50000))#
+#
+legend("topleft", c("Amelia", "MICE", "Trace"),col =  c("red", "green", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+#dev.off()
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Sparsity Analysis: GSS Subset", xlab ="Percentage of entries missing", ylab = "Scaled Loss", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary.tex")
+summ_mat
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to markix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping rkack of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))
+l.rk70 = numeric()
+######## 70#
+#
+glrm1 =  read.csv("Rank_GSS70_MI.csv")#
+glrm2 =  read.csv("Rank_GSS70_MI (1).csv")#
+glrm3 =  read.csv("Rank_GSS70_MI (2).csv")#
+glrm4 =  read.csv("Rank_GSS70_MI (3).csv")#
+glrm5 =  read.csv("Rank_GSS70_MI (4).csv")#
+glrm6 =  read.csv("Rank_GSS70_MI (5).csv")#
+glrm7 =  read.csv("Rank_GSS70_MI (6).csv")#
+glrm8 =  read.csv("Rank_GSS70_MI (7).csv")#
+glrm9 =  read.csv("Rank_GSS70_MI (8).csv")#
+glrm10 = read.csv("Rank_GSS70_MI (9).csv")#
+glrm11 = read.csv("Rank_GSS70_MI (10).csv")#
+glrm12 = read.csv("Rank_GSS70_MI (11).csv")#
+glrm13 = read.csv("Rank_GSS70_MI (12).csv")#
+glrm14 = read.csv("Rank_GSS70_MI (13).csv")#
+glrm15 = read.csv("Rank_GSS70_MI (14).csv")#
+glrm16 = read.csv("Rank_GSS70_MI (15).csv")#
+glrm17 = read.csv("Rank_GSS70_MI (16).csv")#
+glrm18 = read.csv("Rank_GSS70_MI (17).csv")#
+glrm19 = read.csv("Rank_GSS70_MI (18).csv")#
+glrm20 = read.csv("Rank_GSS70_MI (19).csv")#
+#
+sdf1 =  as.numeric(unlist(read.csv("Rank_s70.csv", header = FALSE)))#
+sdf2 =  as.numeric(unlist(read.csv("Rank_s70 (1).csv", header = FALSE)))#
+sdf3 =  as.numeric(unlist(read.csv("Rank_s70 (2).csv", header = FALSE)))#
+sdf4 =  as.numeric(unlist(read.csv("Rank_s70 (3).csv", header = FALSE)))#
+sdf5 =  as.numeric(unlist(read.csv("Rank_s70 (4).csv", header = FALSE)))#
+sdf6 =  as.numeric(unlist(read.csv("Rank_s70 (5).csv", header = FALSE)))#
+sdf7 =  as.numeric(unlist(read.csv("Rank_s70 (6).csv", header = FALSE)))#
+sdf8 =  as.numeric(unlist(read.csv("Rank_s70 (7).csv", header = FALSE)))#
+sdf9 =  as.numeric(unlist(read.csv("Rank_s70 (8).csv", header = FALSE)))#
+sdf10 = as.numeric(unlist(read.csv("Rank_s70 (9).csv", header = FALSE)))#
+sdf11 = as.numeric(unlist(read.csv("Rank_s70 (10).csv", header = FALSE)))#
+sdf12 = as.numeric(unlist(read.csv("Rank_s70 (11).csv", header = FALSE)))#
+sdf13 = as.numeric(unlist(read.csv("Rank_s70 (12).csv", header = FALSE)))#
+sdf14 = as.numeric(unlist(read.csv("Rank_s70 (13).csv", header = FALSE)))#
+sdf15 = as.numeric(unlist(read.csv("Rank_s70 (14).csv", header = FALSE)))#
+sdf16 = as.numeric(unlist(read.csv("Rank_s70 (15).csv", header = FALSE)))#
+sdf17 = as.numeric(unlist(read.csv("Rank_s70 (16).csv", header = FALSE)))#
+sdf18 = as.numeric(unlist(read.csv("Rank_s70 (17).csv", header = FALSE)))#
+sdf19 = as.numeric(unlist(read.csv("Rank_s70 (18).csv", header = FALSE)))#
+sdf20 = as.numeric(unlist(read.csv("Rank_s70 (19).csv", header = FALSE)))#
+GLRM_RK1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_RK2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_RK3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_RK4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_RK5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_RK6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_RK7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_RK8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_RK9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_RK10 = factorLevels(glrm10, df.base, cat1)#
+GLRM_RK11 = factorLevels(glrm11, df.base, cat1)#
+GLRM_RK12 = factorLevels(glrm12, df.base, cat1)#
+GLRM_RK13 = factorLevels(glrm13, df.base, cat1)#
+GLRM_RK14 = factorLevels(glrm14, df.base, cat1)#
+GLRM_RK15 = factorLevels(glrm15, df.base, cat1)#
+GLRM_RK16 = factorLevels(glrm16, df.base, cat1)#
+GLRM_RK17 = factorLevels(glrm17, df.base, cat1)#
+GLRM_RK18 = factorLevels(glrm18, df.base, cat1)#
+GLRM_RK19 = factorLevels(glrm19, df.base, cat1)#
+GLRM_RK20 = factorLevels(glrm20, df.base, cat1)#
+#
+LOSS.RK1  = loss(GLRM_RK1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.RK2  = loss(GLRM_RK2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.RK3  = loss(GLRM_RK3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.RK4  = loss(GLRM_RK4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.RK5  = loss(GLRM_RK5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.RK6  = loss(GLRM_RK6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.RK7  = loss(GLRM_RK7,df.base,sdf7,cat1,ord1, real1 )#
+LOSS.RK8  = loss(GLRM_RK8,df.base,sdf8,cat1,ord1, real1 )#
+LOSS.RK9  = loss(GLRM_RK9,df.base,sdf9,cat1,ord1, real1 )#
+LOSS.RK10  = loss(GLRM_RK10,df.base,sdf10,cat1,ord1, real1 )#
+LOSS.RK11  = loss(GLRM_RK11,df.base,sdf11,cat1,ord1, real1 )#
+LOSS.RK12  = loss(GLRM_RK12,df.base,sdf12,cat1,ord1, real1 )#
+LOSS.RK13  = loss(GLRM_RK13,df.base,sdf13,cat1,ord1, real1 )#
+LOSS.RK14  = loss(GLRM_RK14,df.base,sdf14,cat1,ord1, real1 )#
+LOSS.RK15  = loss(GLRM_RK15,df.base,sdf15,cat1,ord1, real1 )#
+LOSS.RK16  = loss(GLRM_RK16,df.base,sdf16,cat1,ord1, real1 )#
+LOSS.RK17  = loss(GLRM_RK17,df.base,sdf17,cat1,ord1, real1 )#
+LOSS.RK18  = loss(GLRM_RK18,df.base,sdf18,cat1,ord1, real1 )#
+LOSS.RK19  = loss(GLRM_RK19,df.base,sdf19,cat1,ord1, real1 )#
+LOSS.RK20  = loss(GLRM_RK20,df.base,sdf20,cat1,ord1, real1 )#
+l.rk70 = c(l.rk70, LOSS.RK1$loss)#
+l.rk70 = c(l.rk70, LOSS.RK2$loss)#
+l.rk70 = c(l.rk70, LOSS.RK3$loss)#
+l.rk70 = c(l.rk70, LOSS.RK4$loss)#
+l.rk70 = c(l.rk70, LOSS.RK5$loss)#
+l.rk70 = c(l.rk70, LOSS.RK6$loss)#
+l.rk70 = c(l.rk70, LOSS.RK7$loss)#
+l.rk70 = c(l.rk70, LOSS.RK8$loss)#
+l.rk70 = c(l.rk70, LOSS.RK9$loss)#
+l.rk70 = c(l.rk70, LOSS.RK10$loss)#
+l.rk70 = c(l.rk70, LOSS.RK11$loss)#
+l.rk70 = c(l.rk70, LOSS.RK12$loss)#
+l.rk70 = c(l.rk70, LOSS.RK13$loss)#
+l.rk70 = c(l.rk70, LOSS.RK14$loss)#
+l.rk70 = c(l.rk70, LOSS.RK15$loss)#
+l.rk70 = c(l.rk70, LOSS.RK16$loss)#
+l.rk70 = c(l.rk70, LOSS.RK17$loss)#
+l.rk70 = c(l.rk70, LOSS.RK18$loss)#
+l.rk70 = c(l.rk70, LOSS.RK19$loss)#
+l.rk70 = c(l.rk70, LOSS.RK20$loss)#
+#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5,  glrm6, glrm7, glrm8, glrm9, glrm10, #
+glrm11, glrm12, glrm13, glrm14, glrm15,  glrm16, glrm17, glrm18, glrm19, glrm20, #
+GLRM_RK1, GLRM_RK2, GLRM_RK3, GLRM_RK4, GLRM_RK5,  GLRM_RK6, GLRM_RK7, GLRM_RK8, GLRM_RK9, GLRM_RK10, #
+GLRM_RK11, GLRM_RK12, GLRM_RK13, GLRM_RK14, GLRM_RK15,  GLRM_RK16, GLRM_RK17, GLRM_RK18, GLRM_RK19, GLRM_RK20, #
+sdf1, sdf2, sdf3, sdf4, sdf5,  sdf6, sdf7, sdf8, sdf9, sdf10, #
+sdf11, sdf12, sdf13, sdf14, sdf15,  sdf16, sdf17, sdf18, sdf19, sdf20,#
+LOSS.RK1, LOSS.RK2, LOSS.RK3, LOSS.RK4, LOSS.RK5,  LOSS.RK6, LOSS.RK7, LOSS.RK8, LOSS.RK9, LOSS.RK10, #
+LOSS.RK11, LOSS.RK12, LOSS.RK13, LOSS.RK14, LOSS.RK15,  LOSS.RK16, LOSS.RK17, LOSS.RK18, LOSS.RK19, LOSS.RK20 )
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK")
+######## 70#
+#
+glrm1 =  read.csv("Rank_GSS70_MI.csv")#
+glrm2 =  read.csv("Rank_GSS70_MI (1).csv")#
+glrm3 =  read.csv("Rank_GSS70_MI (2).csv")#
+glrm4 =  read.csv("Rank_GSS70_MI (3).csv")#
+glrm5 =  read.csv("Rank_GSS70_MI (4).csv")#
+glrm6 =  read.csv("Rank_GSS70_MI (5).csv")#
+glrm7 =  read.csv("Rank_GSS70_MI (6).csv")#
+glrm8 =  read.csv("Rank_GSS70_MI (7).csv")#
+glrm9 =  read.csv("Rank_GSS70_MI (8).csv")#
+glrm10 = read.csv("Rank_GSS70_MI (9).csv")#
+glrm11 = read.csv("Rank_GSS70_MI (10).csv")#
+glrm12 = read.csv("Rank_GSS70_MI (11).csv")#
+glrm13 = read.csv("Rank_GSS70_MI (12).csv")#
+glrm14 = read.csv("Rank_GSS70_MI (13).csv")#
+glrm15 = read.csv("Rank_GSS70_MI (14).csv")#
+glrm16 = read.csv("Rank_GSS70_MI (15).csv")#
+glrm17 = read.csv("Rank_GSS70_MI (16).csv")#
+glrm18 = read.csv("Rank_GSS70_MI (17).csv")#
+glrm19 = read.csv("Rank_GSS70_MI (18).csv")#
+glrm20 = read.csv("Rank_GSS70_MI (19).csv")#
+#
+sdf1 =  as.numeric(unlist(read.csv("Rank_s70.csv", header = FALSE)))#
+sdf2 =  as.numeric(unlist(read.csv("Rank_s70 (1).csv", header = FALSE)))#
+sdf3 =  as.numeric(unlist(read.csv("Rank_s70 (2).csv", header = FALSE)))#
+sdf4 =  as.numeric(unlist(read.csv("Rank_s70 (3).csv", header = FALSE)))#
+sdf5 =  as.numeric(unlist(read.csv("Rank_s70 (4).csv", header = FALSE)))#
+sdf6 =  as.numeric(unlist(read.csv("Rank_s70 (5).csv", header = FALSE)))#
+sdf7 =  as.numeric(unlist(read.csv("Rank_s70 (6).csv", header = FALSE)))#
+sdf8 =  as.numeric(unlist(read.csv("Rank_s70 (7).csv", header = FALSE)))#
+sdf9 =  as.numeric(unlist(read.csv("Rank_s70 (8).csv", header = FALSE)))#
+sdf10 = as.numeric(unlist(read.csv("Rank_s70 (9).csv", header = FALSE)))#
+sdf11 = as.numeric(unlist(read.csv("Rank_s70 (10).csv", header = FALSE)))#
+sdf12 = as.numeric(unlist(read.csv("Rank_s70 (11).csv", header = FALSE)))#
+sdf13 = as.numeric(unlist(read.csv("Rank_s70 (12).csv", header = FALSE)))#
+sdf14 = as.numeric(unlist(read.csv("Rank_s70 (13).csv", header = FALSE)))#
+sdf15 = as.numeric(unlist(read.csv("Rank_s70 (14).csv", header = FALSE)))#
+sdf16 = as.numeric(unlist(read.csv("Rank_s70 (15).csv", header = FALSE)))#
+sdf17 = as.numeric(unlist(read.csv("Rank_s70 (16).csv", header = FALSE)))#
+sdf18 = as.numeric(unlist(read.csv("Rank_s70 (17).csv", header = FALSE)))#
+sdf19 = as.numeric(unlist(read.csv("Rank_s70 (18).csv", header = FALSE)))#
+sdf20 = as.numeric(unlist(read.csv("Rank_s70 (19).csv", header = FALSE)))#
+GLRM_RK1 = factorLevels(glrm1, df.base, cat1)#
+GLRM_RK2 = factorLevels(glrm2, df.base, cat1)#
+GLRM_RK3 = factorLevels(glrm3, df.base, cat1)#
+GLRM_RK4 = factorLevels(glrm4, df.base, cat1)#
+GLRM_RK5 = factorLevels(glrm5, df.base, cat1)#
+GLRM_RK6 = factorLevels(glrm6, df.base, cat1)#
+GLRM_RK7 = factorLevels(glrm7, df.base, cat1)#
+GLRM_RK8 = factorLevels(glrm8, df.base, cat1)#
+GLRM_RK9 = factorLevels(glrm9, df.base, cat1)#
+GLRM_RK10 = factorLevels(glrm10, df.base, cat1)#
+GLRM_RK11 = factorLevels(glrm11, df.base, cat1)#
+GLRM_RK12 = factorLevels(glrm12, df.base, cat1)#
+GLRM_RK13 = factorLevels(glrm13, df.base, cat1)#
+GLRM_RK14 = factorLevels(glrm14, df.base, cat1)#
+GLRM_RK15 = factorLevels(glrm15, df.base, cat1)#
+GLRM_RK16 = factorLevels(glrm16, df.base, cat1)#
+GLRM_RK17 = factorLevels(glrm17, df.base, cat1)#
+GLRM_RK18 = factorLevels(glrm18, df.base, cat1)#
+GLRM_RK19 = factorLevels(glrm19, df.base, cat1)#
+GLRM_RK20 = factorLevels(glrm20, df.base, cat1)#
+#
+LOSS.RK1  = loss(GLRM_RK1,df.base,sdf1,cat1,ord1, real1 )#
+LOSS.RK2  = loss(GLRM_RK2,df.base,sdf2,cat1,ord1, real1 )#
+LOSS.RK3  = loss(GLRM_RK3,df.base,sdf3,cat1,ord1, real1 )#
+LOSS.RK4  = loss(GLRM_RK4,df.base,sdf4,cat1,ord1, real1 )#
+LOSS.RK5  = loss(GLRM_RK5,df.base,sdf5,cat1,ord1, real1 )#
+LOSS.RK6  = loss(GLRM_RK6,df.base,sdf6,cat1,ord1, real1 )#
+LOSS.RK7  = loss(GLRM_RK7,df.base,sdf7,cat1,ord1, real1 )#
+LOSS.RK8  = loss(GLRM_RK8,df.base,sdf8,cat1,ord1, real1 )#
+LOSS.RK9  = loss(GLRM_RK9,df.base,sdf9,cat1,ord1, real1 )#
+LOSS.RK10  = loss(GLRM_RK10,df.base,sdf10,cat1,ord1, real1 )#
+LOSS.RK11  = loss(GLRM_RK11,df.base,sdf11,cat1,ord1, real1 )#
+LOSS.RK12  = loss(GLRM_RK12,df.base,sdf12,cat1,ord1, real1 )#
+LOSS.RK13  = loss(GLRM_RK13,df.base,sdf13,cat1,ord1, real1 )#
+LOSS.RK14  = loss(GLRM_RK14,df.base,sdf14,cat1,ord1, real1 )#
+LOSS.RK15  = loss(GLRM_RK15,df.base,sdf15,cat1,ord1, real1 )#
+LOSS.RK16  = loss(GLRM_RK16,df.base,sdf16,cat1,ord1, real1 )#
+LOSS.RK17  = loss(GLRM_RK17,df.base,sdf17,cat1,ord1, real1 )#
+LOSS.RK18  = loss(GLRM_RK18,df.base,sdf18,cat1,ord1, real1 )#
+LOSS.RK19  = loss(GLRM_RK19,df.base,sdf19,cat1,ord1, real1 )#
+LOSS.RK20  = loss(GLRM_RK20,df.base,sdf20,cat1,ord1, real1 )#
+l.rk70 = c(l.rk70, LOSS.RK1$loss)#
+l.rk70 = c(l.rk70, LOSS.RK2$loss)#
+l.rk70 = c(l.rk70, LOSS.RK3$loss)#
+l.rk70 = c(l.rk70, LOSS.RK4$loss)#
+l.rk70 = c(l.rk70, LOSS.RK5$loss)#
+l.rk70 = c(l.rk70, LOSS.RK6$loss)#
+l.rk70 = c(l.rk70, LOSS.RK7$loss)#
+l.rk70 = c(l.rk70, LOSS.RK8$loss)#
+l.rk70 = c(l.rk70, LOSS.RK9$loss)#
+l.rk70 = c(l.rk70, LOSS.RK10$loss)#
+l.rk70 = c(l.rk70, LOSS.RK11$loss)#
+l.rk70 = c(l.rk70, LOSS.RK12$loss)#
+l.rk70 = c(l.rk70, LOSS.RK13$loss)#
+l.rk70 = c(l.rk70, LOSS.RK14$loss)#
+l.rk70 = c(l.rk70, LOSS.RK15$loss)#
+l.rk70 = c(l.rk70, LOSS.RK16$loss)#
+l.rk70 = c(l.rk70, LOSS.RK17$loss)#
+l.rk70 = c(l.rk70, LOSS.RK18$loss)#
+l.rk70 = c(l.rk70, LOSS.RK19$loss)#
+l.rk70 = c(l.rk70, LOSS.RK20$loss)#
+#
+rm(glrm1, glrm2, glrm3, glrm4, glrm5,  glrm6, glrm7, glrm8, glrm9, glrm10, #
+glrm11, glrm12, glrm13, glrm14, glrm15,  glrm16, glrm17, glrm18, glrm19, glrm20, #
+GLRM_RK1, GLRM_RK2, GLRM_RK3, GLRM_RK4, GLRM_RK5,  GLRM_RK6, GLRM_RK7, GLRM_RK8, GLRM_RK9, GLRM_RK10, #
+GLRM_RK11, GLRM_RK12, GLRM_RK13, GLRM_RK14, GLRM_RK15,  GLRM_RK16, GLRM_RK17, GLRM_RK18, GLRM_RK19, GLRM_RK20, #
+sdf1, sdf2, sdf3, sdf4, sdf5,  sdf6, sdf7, sdf8, sdf9, sdf10, #
+sdf11, sdf12, sdf13, sdf14, sdf15,  sdf16, sdf17, sdf18, sdf19, sdf20,#
+LOSS.RK1, LOSS.RK2, LOSS.RK3, LOSS.RK4, LOSS.RK5,  LOSS.RK6, LOSS.RK7, LOSS.RK8, LOSS.RK9, LOSS.RK10, #
+LOSS.RK11, LOSS.RK12, LOSS.RK13, LOSS.RK14, LOSS.RK15,  LOSS.RK16, LOSS.RK17, LOSS.RK18, LOSS.RK19, LOSS.RK20 )
+l.rk70
+new.rk70 = l.rk70
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/rank_consistency.RData")
+l.rk70 = new.rk70
+l.rk10
+save(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90 , file = "rank_consistency.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 19-length(l.aml10))), c(l.aml20, rep(NA, 19-length(l.aml20))), c(l.aml30, rep(NA, 19-length(l.aml30))), c(l.aml40, rep(NA, 19-length(l.aml40))), c(l.aml50, rep(NA, 19-length(l.aml50))), c(l.aml60, rep(NA, 19-length(l.aml60))),  c(l.aml70, rep(NA, 19-length(l.aml70))), c(l.aml80, rep(NA, 19-length(l.aml80))), c(l.aml90, rep(NA, 19-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:79 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+#print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )#
+#
+#pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+##### 10#
+#
+load('amelia_GSS10 (1).RData')
+AML1= factorLevels(am1, df.base, cat1)
+load('amelia_GSS10 (2).RData')
+AML1= factorLevels(am1, df.base, cat1)
+load('amelia_GSS10 (19).RData')
+AML1= factorLevels(am1, df.base, cat1)
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Feb 2017/GSS/AMELIA/amelia_GSS_10.RData")
+rm(list = ls())
+am1
+aml1
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Feb 2017/GSS/AMELIA/amelia_GSS_10.RData")
+am1
+save(am1, file = "amelia_GSS10 (19).RData")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Feb 2017/GSS/AMELIA/amelia_GSS_20.RData")#
+save(am1, file = "amelia_GSS20 (19).RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Feb 2017/GSS/AMELIA/amelia_GSS20.RData")
+am1
+save(am1, file = "amelia_GSS20 (19).RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Feb 2017/GSS/AMELIA/amelia_GSS30.RData")#
+save(am1, file = "amelia_GSS30 (19).RData")
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")
+rm(list = ls())
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")
+sdf1
+load('amelia_GSS10 (1).RData')
+am1
+sdf1
+rm(list = ls())
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/boo/amelia_GSS10.RData")
+am1
+sdf1
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/boo/amelia_GSS20.RData")
+rm(list = ls())
+am1
+sdf1
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/boo/amelia_GSS20.RData")
+am1
+sdf1
+#install.packages("Amelia", repos='http://cran.us.r-project.org')#
+#install.packages("Amelia", repos="http://r.iq.harvard.edu", type = "source")#
+#
+rm(list = ls())#
+#
+library("Amelia")#
+#
+df = read.csv("GSScleaned.csv")[, -1]#
+noms = read.csv("GSScategoricals.csv")[, -1]#
+ords = read.csv("GSSordinals.csv")[, -1]#
+#
+rho = 0.3#
+#
+xdf = c(1:(dim(df)[1]*dim(df)[2]))#
+ndf = nrow(df)#
+DF = df#
+#
+sdf1 = sample(xdf, round(rho*length(xdf)))#
+#
+for ( i in 1:length(sdf1)){#
+	ind = sdf1[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	DF[r,c] = NA}	#
+a = amelia(DF, m = 1, noms = noms, ords = ords, p2s = 2, tolerance = 0.001) #
+#
+am1 = as.data.frame(a$imputations[1])#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+save(am1, sdf1, file = "amelia_GSS30 (19).RData" )
+#install.packages("Amelia", repos='http://cran.us.r-project.org')#
+#install.packages("Amelia", repos="http://r.iq.harvard.edu", type = "source")#
+#
+rm(list = ls())#
+#
+library("Amelia")#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data/")#
+df = read.csv("GSScleaned.csv")[, -1]#
+noms = read.csv("GSScategoricals.csv")[, -1]#
+ords = read.csv("GSSordinals.csv")[, -1]#
+#
+rho = 0.3#
+#
+xdf = c(1:(dim(df)[1]*dim(df)[2]))#
+ndf = nrow(df)#
+DF = df#
+#
+sdf1 = sample(xdf, round(rho*length(xdf)))#
+#
+for ( i in 1:length(sdf1)){#
+	ind = sdf1[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	DF[r,c] = NA}	#
+a = amelia(DF, m = 1, noms = noms, ords = ords, p2s = 2, tolerance = 0.001) #
+#
+am1 = as.data.frame(a$imputations[1])#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+save(am1, sdf1, file = "amelia_GSS30 (19).RData" )
+#install.packages("Amelia", repos='http://cran.us.r-project.org')#
+#install.packages("Amelia", repos="http://r.iq.harvard.edu", type = "source")#
+#
+rm(list = ls())#
+#
+library("Amelia")#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data/")#
+df = read.csv("GSScleaned.csv")[, -1]#
+noms = read.csv("GSScategoricals.csv")[, -1]#
+ords = read.csv("GSSordinals.csv")[, -1]#
+#
+rho = 0.4#
+#
+xdf = c(1:(dim(df)[1]*dim(df)[2]))#
+ndf = nrow(df)#
+DF = df#
+#
+sdf1 = sample(xdf, round(rho*length(xdf)))#
+#
+for ( i in 1:length(sdf1)){#
+	ind = sdf1[i]#
+	r = ((ind-1) %% ndf) + 1 #
+	c = floor((ind-1) / ndf) + 1#
+	DF[r,c] = NA}	#
+a = amelia(DF, m = 1, noms = noms, ords = ords, p2s = 2, tolerance = 0.001) #
+#
+am1 = as.data.frame(a$imputations[1])#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+save(am1, sdf1, file = "amelia_GSS40 (19).RData" )
+# given dataframe df , list of categoricals cat1, imputed dataset IMP#
+#
+library("xtable")#
+#
+rm(list = ls())#
+#
+###Calculating scaled loss given original data df.base, categorical columns cat1, imputed dataset IMP#
+loss = function(IMP, df.base, s, cat1, ord1, real1){#
+#
+	l = 0#
+	lcol = rep(0, dim(IMP)[2])#
+	n = nrow(IMP)#
+	m = ncol(IMP)#
+df.base0 = df.base#
+#
+# scale numeric & integer columns and attach scaled columns to categorical columns#
+#
+df.scale.real = scale(df.base[, real1])#
+df.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+df.scale.ord = cbind(df.scale.ord, 	(df.base[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+df.base[,real1] = df.scale.real#
+df.base[,ord1] = df.scale.ord#
+#
+IMP.scale.real = scale(IMP[, real1])#
+IMP.scale.ord = numeric()#
+for (o in 1: length(ord1)){#
+IMP.scale.ord = cbind(IMP.scale.ord, 	(IMP[, ord1[o]] - min(df.base0[, ord1[o]] , na.rm = TRUE))/ (max(df.base0[, ord1[o]], na.rm = TRUE) - min(df.base0[, ord1[o]], na.rm = TRUE )))#
+}#
+#
+IMP[,real1] = IMP.scale.real#
+IMP[,ord1] = IMP.scale.ord#
+#
+# now we loop through all induced missing values and add up the errors#
+#
+for (j in 1:length(s)){#
+	ind = s[j]#
+#	print(j)#
+# converting indices to matrix row and columns#
+	r = ((ind-1) %% n) + 1 #
+	c = floor((ind-1) / n) + 1#
+# for categorical columns loss is whether or not mis-classified  (also keeping track of number of factor levels here)#
+#
+	if ( is.element(c,cat1)){#
+		if(!is.na(df.base[r,c])){#
+		l = l+ (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lind = (1 - 1*(df.base[r,c]== IMP[r,c] ))#
+		lcol[c] = lcol[c]+ lind} }#
+# for remaining columns loss is squared difference#
+    if (!is.element(c,cat1) ){#
+    	if(!is.na(df.base[r,c])){#
+    	l = l + (df.base[r,c] - IMP[r,c])^2#
+    	lind = (df.base[r,c] - IMP[r,c])^2	#
+	lcol[c] = lcol[c] + lind}}#
+	#	print(c(j, c, r, lind, lcol[c], l))#
+		}	#
+#
+	rm(lind)#
+# get back total loss, columnwise loss and checks for factor levels#
+	return(list(loss = l/length(s), lcol = lcol))}#
+# add factor levels to make comparisons possible if needed #
+#
+factorLevels <- function(IMP, df.base, cat1){#
+	for (k in 1: length(cat1)){#
+		levs = levels(df.base[, cat1[k]])#
+		IMP[, cat1[k]] = factor(IMP[, cat1[k]], levels = levs)#
+		print(c(k, cat1[k], sum(is.na(IMP[,cat1[k]]))))#
+		}#
+       IMPfin = IMP#
+       for (h in 1: length(cat1)){#
+       	g = length(levels(df.base[,cat1[h]]))#
+       	b = length(levels(IMPfin[, cat1[h]]))#
+       	print(g-b)}#
+ return(IMPfin)}#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Data")#
+#
+df.base = read.csv("GSScleaned.csv")[,-1] #df without CV indices removed#
+cat1 = read.csv("GSScategoricals.csv")[, -1]#
+ord1 = read.csv("GSSordinals.csv")[, -1]#
+real1 = which(!is.element(seq(1: dim(df.base)[2]),c(ord1, cat1)))#
+l.aml10 = numeric()#
+l.aml20 = numeric()#
+l.aml30 = numeric()#
+l.aml40 = numeric()#
+l.aml50 = numeric()#
+l.aml60 = numeric()#
+l.aml70 = numeric()#
+l.aml80 = numeric()#
+l.aml90 = numeric()#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")
+load('amelia_GSS10 (19).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml10 = c(l.aml10, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)
+l.aml10
+load('amelia_GSS20 (19).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml20 = c(l.aml20, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)
+l.aml20
+l.aml10
+load('amelia_GSS30 (19).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml30 = c(l.aml30, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)
+check = load('amelia_GSS30 (19).RData')
+check
+AML1= factorLevels(am1, df.base, cat1)
+am1
+l.aml30 = NA
+load('amelia_GSS40 (19).RData')#
+AML1= factorLevels(am1, df.base, cat1)#
+LOSS.AML1 = loss(AML1,df.base,sdf1,cat1,ord1, real1 )#
+l.aml40 = c(l.aml40, LOSS.AML1$loss)#
+rm(am1, sdf1, LOSS.AML1, AML1)
+l.aml40
+test10 = l.aml10
+test20 = l.aml20
+test30 = l.aml30
+test40 = l.aml40
+load("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/amelia_consistency.RData")
+l.aml10
+l.aml10 = c(l.aml10, test10 )
+l.aml10
+l.aml20 = c(l.aml20, test20 )
+l.aml40 = c(l.aml40, test40 )
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")
+save(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, l.aml60, l.aml70, l.aml80, l.aml90, file = "amelia_consistency.RData")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))
+TR
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)
+RK
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))
+MC
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90))))
+AM
+mat = rbind(TR, RK, MC, AM)
+mat
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 2)
+summ_mat
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+#
+checkaml = c(rep(10, 19), rep(20, 19), rep(30, 19), rep(40, 19), rep(50, 19), rep(60, 19) , rep(70, 19), rep(80, 19), rep(90, 19)  )#
+#
+#pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ checkaml, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+#dev.off()
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")
+dev.off()
+#pdf("sparsity_boxplots_gss_with_rk.pdf")#
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+boxplot(as.vector(AM) ~ check, ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric", boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")
+plot.new()#
+boxplot(as.vector(RK)~ check, col = "orange", add = TRUE,  boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")
+dev.off()
+boxplot(as.vector(RK)~ check, col = "orange", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric",   boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+boxplot(as.vector(AM) ~ check, add = TRUE, boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+#
+boxplot(as.vector(RK)~ check, col = "orange", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric",   boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+boxplot(as.vector(AM) ~ check, add = TRUE, boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 2)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+#print(summTab, type = "latex", file = "GSS_summary.tex")#
+missing_prop = seq(10, 90, by = 10)#
+ymax = 1.05*max(max(mat, na.rm = TRUE))#
+ymin = 0.95*min(min(mat, na.rm = TRUE)) #
+check = c(rep(10, 20), rep(20, 20), rep(30, 20), rep(40, 20), rep(50, 20), rep(60, 20) , rep(70, 20), rep(80, 20), rep(90, 20)  )#
+pdf("sparsity_boxplots_gss_with_rk.pdf")#
+#
+boxplot(as.vector(RK)~ check, col = "orange", ylim = c(ymin, ymax ), xlim = c(0.5, 9.5), main = "Multiple Imputations: GSS", xlab ="Percentage of entries missing", ylab = "Total Error Metric",   boxlwd = 1, boxcol = "orange", medlwd = 2, medcol = "black", whiskcol = "orange", outcol = "orange", staplecol = "orange")#
+#
+boxplot(as.vector(AM) ~ check, add = TRUE, boxlwd = 1, boxcol = "red", medlwd = 2, medcol = "black", whiskcol = "red", outcol = "red", staplecol = "red", col ="red")#
+boxplot(as.vector(MC) ~check,  col = "darkgreen", add= TRUE,  boxlwd = 1, boxcol = "darkgreen", medlwd = 2, medcol = "black", whiskcol = "darkgreen", outcol = "darkgreen", staplecol = "darkgreen")#
+boxplot(as.vector(TR)~ check, col = "blue", add = TRUE,  boxlwd = 1, boxcol = "blue", medlwd = 2, medcol = "black", whiskcol = "blue", outcol = "blue", staplecol = "blue")#
+#
+lines(seq(1,9), avg.aml,  type = "b", col = rgb(1,0,0), pch = 19, lwd = 1.5 )#
+lines(seq(1,9), avg.mice,  type = "b", col = "darkgreen", pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.tr, type = "b", col = rgb(0,0,1), pch = 19, lwd = 1.5)#
+lines(seq(1,9), avg.rk, type = "b", col = "orange", pch = 19, lwd = 1.5)#
+#
+legend("topleft", c("Amelia", "MICE", "Rank", "Trace"),col =  c("red", "darkgreen", "orange", "blue"), lty = 1, pch = 19 ,pt.bg = 'white')#
+#
+dev.off()
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")
+AM
+t.test(AM[:,1])
+ttest(AM[:,1])
+t.test(AM[,1])
+t.test(AM[,1])$conf.int
+t.test(AM[,1])$conf.int[1]
+t.test(AM[,1])$mean
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)
+avg.aml[1]
+paste(t.test(AM[,1])$conf.int[1], " ",  t.test(AM[,1])$conf.int[2])
+paste(round(t.test(AM[,1])$conf.int[1], 3), " ",  round(t.test(AM[,1])$conf.int[2],3))
+paste("(", round(t.test(AM[,1])$conf.int[1], 3), " ",  round(t.test(AM[,1])$conf.int[2],3), ")")
+ci = function(vec){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)#
+ci.mice = apply(MC, 2, ci)#
+ci.tr = apply(TR, 2, ci)#
+ci.rk = apply(RK, 2, ci)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 3)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)#
+ci.mice = apply(MC, 2, ci)#
+ci.tr = apply(TR, 2, ci)#
+ci.rk = apply(RK, 2, ci)#
+summ_mat = round(rbind(avg.aml, prop.na.aml , avg.mice, prop.na.mice , avg.tr, #
+ prop.na.tr, avg.rk, prop.na.rk,  imp.aml, imp.mice), 3)
+ci.aml
+ci.tr
+ci.rk
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)#
+ci.mice = apply(MC, 2, ci)#
+ci.tr = apply(TR, 2, ci)#
+ci.rk = apply(RK, 2, ci)
+ci.aml
+AM
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(is.na(vec))>2){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)#
+ci.mice = apply(MC, 2, ci)#
+ci.tr = apply(TR, 2, ci)#
+ci.rk = apply(RK, 2, ci)
+ci(AM[,1])
+ci
+sum(is.na(vec))
+sum(is.na(AM[,1]))
+AM
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)#
+ci.mice = apply(MC, 2, ci)#
+ci.tr = apply(TR, 2, ci)#
+ci.rk = apply(RK, 2, ci)
+ci.aml
+ci.mice
+ci.rk
+unlist(ci.mice)
+unlist(ci.rk)
+as.character(ci.rk)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = apply(mat[1:20 ,], 2 , mean, na.rm = TRUE)#
+avg.rk = apply(mat[21:40 ,], 2 , mean, na.rm = TRUE)#
+avg.mice = apply(mat[41:60 , ], 2 , mean, na.rm = TRUE)#
+avg.aml = apply(mat[61:80 ,], 2 , mean, na.rm = TRUE)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = apply(AM, 2, prop.na)#
+prop.na.mice = apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = round(rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk), 3)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ-mat
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary_with_ci.tex")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))
+avg.tr
+as.character(avg.tr)
+prop.na.aml
+ci.aml
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+#rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+#colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+rownames(summ_mat)
+colnames(summ_mat)
+avg.aml
+rm(list = ls())
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+#rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+#colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+avg.mice
+avg.rk
+avg.tr
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+#rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+#colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+avg.tr = as.character(round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3))#
+avg.rk = as.character(round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3))#
+avg.mice = as.character(round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3))#
+avg.aml = as.character(round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3))#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+#rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 19))#
+#colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+#
+rownames(summ_mat) = c("Amelia", "AmCI", "AmNA", "MICE", "Mice1", "Mice2", "Trace", "Trace1", "Trace2", "Rank", "Rank1", "Rank2")#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+summ_mat
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+print(summTab, type = "latex", file = "GSS_summary_CI.tex")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+#
+rownames(summ_mat) = c("Amelia", "AmCI", "AmNA", "MICE", "Mice1", "Mice2", "Trace", "Trace1", "Trace2", "Rank", "Rank1", "Rank2")#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:78 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+#
+rownames(summ_mat) = c("Amelia", "AmCI", "AmNA", "MICE", "Mice1", "Mice2", "Trace", "Trace1", "Trace2", "Rank", "Rank1", "Rank2")#
+colnames(summ_mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")
+summ_mat
+prop.na = function(vec){#
+	prop.na = 100*(sum(is.na(vec))/length(vec))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")")}#
+}
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(100*(sum(is.na(vec))/length(vec), "%"))#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")" , sep = "")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(100*(sum(is.na(vec))/length(vec)), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")" , sep = "")}#
+}#
+prop.na.aml = round(apply(AM, 2, prop.na))#
+prop.na.mice = round(apply(MC, 2, prop.na))#
+prop.na.tr = round(apply(TR, 2, prop.na))#
+prop.na.rk = round(apply(RK, 2, prop.na))#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 3), " ",  round(t.test(vec)$conf.int[2],3), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),2)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),2)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),2)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),2)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+print(summTab, type = "latex", file = "GSS_summary_with_ci.tex")
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:78 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+	if(sum(!is.na(vec))<2){#
+	ci = NA}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(apply(AM, 2, ci))#
+ci.mice = unlist(apply(MC, 2, ci))#
+ci.tr = unlist(apply(TR, 2, ci))#
+ci.rk = unlist(apply(RK, 2, ci))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = apply(AM, 2, ci)
+ci.aml
+unlist(ci.aml)
+unlist(as.character(ci.aml))
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(as.character(apply(AM, 2, ci)))#
+ci.mice = unlist(as.character(apply(MC, 2, ci)))#
+ci.tr = unlist(as.character(apply(TR, 2, ci)))#
+ci.rk = unlist(as.character(apply(RK, 2, ci)))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary_with_ci.tex")
+summTab
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:78 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(as.character(apply(AM, 2, ci)))#
+ci.mice = unlist(as.character(apply(MC, 2, ci)))#
+ci.tr = unlist(as.character(apply(TR, 2, ci)))#
+ci.rk = unlist(as.character(apply(RK, 2, ci)))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")
+summTab
+avg.aml
+avg.mice
+avg.rk
+avg.tr
+ci.rk
+avg.aml =apply(AM, 2, mean, na.rm = TRUE)#
+avg.mice =apply(MC, 2,mean, na.rm = TRUE)#
+avg.tr = apply(TR, 2, mean, na.rm = TRUE)#
+avg.rk = apply(RK, 2, mean, na.rm = TRUE)
+avg.aml
+avg.rk
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/RANK/")#
+load('rank_consistency.RData')#
+RK = cbind(l.rk10[1:20], l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, l.mice90)#
+AM = cbind(l.aml10, l.aml20, l.aml30, l.aml40, l.aml50, c(l.aml60, NA), l.aml70, l.aml80, l.aml90)#
+#
+mat = rbind(RK, TR, MC, AM)#
+rownames(mat) = c(rep("rank", 20),rep("trace", 20), rep("mice", 20), rep("amelia", 18))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/NLSY/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:78 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+avg.aml =round(apply(AM, 2, mean, na.rm = TRUE),3)#
+avg.mice =round(apply(MC, 2,mean, na.rm = TRUE),3)#
+avg.tr = round(apply(TR, 2, mean, na.rm = TRUE),3)#
+avg.rk = round(apply(RK, 2, mean, na.rm = TRUE),3)#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(as.character(apply(AM, 2, ci)))#
+ci.mice = unlist(as.character(apply(MC, 2, ci)))#
+ci.tr = unlist(as.character(apply(TR, 2, ci)))#
+ci.rk = unlist(as.character(apply(RK, 2, ci)))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)
+summ_mat
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "NLSY_summary_ci.tex")
+summTab
+rm(list = ls())#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/AMELIA/")#
+load('amelia_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/MICE/")#
+load('mice_consistency.RData')#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/TRACE/")#
+load('trace_consistency.RData')#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/RANK/")#
+load('rank_consistency.RData')#
+TR = cbind(l.tr10, l.tr20, l.tr30, l.tr40, l.tr50, l.tr60, l.tr70, l.tr80, c(l.tr90, NA))#
+RK = cbind(l.rk10, l.rk20, l.rk30, l.rk40, l.rk50, l.rk60, l.rk70, l.rk80, l.rk90)#
+#
+MC = cbind(l.mice10, l.mice20, l.mice30, l.mice40, l.mice50, l.mice60, l.mice70, l.mice80, rep(NA, 20))#
+AM = cbind(c(l.aml10, rep(NA, 20-length(l.aml10))), c(l.aml20, rep(NA, 20-length(l.aml20))), c(l.aml30, rep(NA, 20-length(l.aml30))), c(l.aml40, rep(NA, 20-length(l.aml40))), c(l.aml50, rep(NA, 20-length(l.aml50))), c(l.aml60, rep(NA, 20-length(l.aml60))),  c(l.aml70, rep(NA, 20-length(l.aml70))), c(l.aml80, rep(NA, 20-length(l.aml80))), c(l.aml90, rep(NA, 20-length(l.aml90)))) #
+#
+mat = rbind(TR, RK, MC, AM)#
+rownames(mat) = c(rep("trace", 20), rep("rank", 20), rep("mice", 20), rep("amelia", 20))#
+colnames(mat) = c("10%", "20%","30%","40%","50%","60%","70%","80%","90%")#
+#
+setwd("/Users/Nandana/Desktop/GitHub folder/MissingValues/Apr 2017/consistency/GSS/Comparisons")#
+#write.csv(mat, "GSSsparsitycomp.csv")#
+#
+#mat = read.csv("GSSsparsitycomp.csv")#
+#mat = mat[,-1]#
+#
+avg.tr = round(apply(mat[1:20 ,], 2 , mean, na.rm = TRUE),3)#
+avg.rk = round(apply(mat[21:40 ,], 2 , mean, na.rm = TRUE),3)#
+avg.mice = round(apply(mat[41:60 , ], 2 , mean, na.rm = TRUE),3)#
+avg.aml = round(apply(mat[61:80 ,], 2 , mean, na.rm = TRUE),3)#
+imp.mice = 100*((avg.mice- avg.tr)/avg.mice)#
+imp.aml = 100*(avg.aml- avg.tr)/avg.aml#
+#
+prop.na = function(vec){#
+	prop.na = paste(round(100*(sum(is.na(vec))/length(vec))), "%")#
+}#
+ci = function(vec){#
+	if(sum(!is.na(vec))>1){#
+	ci = paste("(", round(t.test(vec)$conf.int[1], 2), " ",  round(t.test(vec)$conf.int[2],2), ")" , sep = "")}#
+}#
+avg.aml =round(apply(AM, 2, mean, na.rm = TRUE),3)#
+avg.mice =round(apply(MC, 2,mean, na.rm = TRUE),3)#
+avg.tr = round(apply(TR, 2, mean, na.rm = TRUE),3)#
+avg.rk = round(apply(RK, 2, mean, na.rm = TRUE),3)#
+prop.na.aml =apply(AM, 2, prop.na)#
+prop.na.mice =apply(MC, 2, prop.na)#
+prop.na.tr = apply(TR, 2, prop.na)#
+prop.na.rk = apply(RK, 2, prop.na)#
+ci.aml = unlist(as.character(apply(AM, 2, ci)))#
+ci.mice = unlist(as.character(apply(MC, 2, ci)))#
+ci.tr = unlist(as.character(apply(TR, 2, ci)))#
+ci.rk = unlist(as.character(apply(RK, 2, ci)))#
+summ_mat = rbind(avg.aml, ci.aml, prop.na.aml, avg.mice, ci.mice,  prop.na.mice , avg.tr, ci.tr,  #
+ prop.na.tr, avg.rk, ci.rk,  prop.na.rk)#
+library("xtable")#
+summTab = xtable(summ_mat, align = "|l|c|c|c|c|c|c|c|c|c|")#
+print(summTab, type = "latex", file = "GSS_summary_with_ci.tex")
+summTab
